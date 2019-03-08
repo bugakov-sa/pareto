@@ -2,5 +2,9 @@
 .idea/
 gradle/
 build/
+out/
+core.iml
 gradlew
 gradlew.bat
+gradle.properties
+start.sh
