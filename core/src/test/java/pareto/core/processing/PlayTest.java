@@ -1,8 +1,8 @@
-package pareto.core.player;
+package pareto.core.processing;
 
 import org.junit.Test;
 
-public class PlayerTest {
+public class PlayTest {
 
     @Test
     public void test() {

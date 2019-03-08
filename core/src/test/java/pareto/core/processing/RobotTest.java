@@ -1,8 +1,8 @@
-package pareto.core.algorithm;
+package pareto.core.processing;
 
 import org.junit.Test;
 
-public class AlgorithmTest {
+public class RobotTest {
 
     @Test
     public void test() {

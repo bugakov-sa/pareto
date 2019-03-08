@@ -1,6 +1,6 @@
 package pareto.core.entity;
 
-public class Robot {
+public class PlayMeta {
 
 
 }
