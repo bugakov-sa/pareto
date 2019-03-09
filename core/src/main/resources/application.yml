@@ -4,3 +4,5 @@ spring:
     username: pareto
     password: pareto
     driver-class-name: org.postgresql.Driver
+  flyway:
+    schemas: core
