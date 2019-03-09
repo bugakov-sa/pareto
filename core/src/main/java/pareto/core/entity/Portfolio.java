@@ -1,4 +1,4 @@
 package pareto.core.entity;
 
-public interface Order {
+public class Portfolio {
 }

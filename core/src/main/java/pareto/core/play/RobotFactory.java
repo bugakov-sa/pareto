@@ -1,12 +1,12 @@
-package pareto.core.processing;
+package pareto.core.play;
 
+import org.springframework.stereotype.Service;
 import pareto.core.entity.RobotMeta;
 
-import java.util.Collections;
-
+@Service
 public class RobotFactory {
 
     public Robot createRobot(RobotMeta robotMeta) {
-        return state -> Collections.emptyList();
+        return null;
     }
 }
