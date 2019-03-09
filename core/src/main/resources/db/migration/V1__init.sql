@@ -17,7 +17,7 @@ CREATE TABLE robot_param (
 );
 
 CREATE TABLE context (
-    id BIGINT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT NOT NULL
 );

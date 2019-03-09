@@ -1,6 +1,7 @@
 package pareto.core.entity;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,11 @@ public class ContextMeta {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.params = params;
+        this.params = Map.copyOf(params);
+    }
+
+    public ContextMeta(long id, String name, String description) {
+        this(id, name, description, Map.of());
     }
 
     public long getId() {
@@ -32,6 +37,16 @@ public class ContextMeta {
 
     public Map<String, String> getParams() {
         return params;
+    }
+
+    public ContextMeta setParams(Map<String, String> params) {
+        return new ContextMeta(id, name, description, params);
+    }
+
+    public ContextMeta addParam(String name, String value) {
+        Map<String, String> currParams = new HashMap<>(params);
+        currParams.put(name, value);
+        return setParams(currParams);
     }
 
     public LocalDateTime getFromTime() {

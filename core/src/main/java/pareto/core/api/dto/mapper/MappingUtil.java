@@ -4,6 +4,7 @@ import pareto.core.api.dto.*;
 import pareto.core.entity.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,5 +64,20 @@ public class MappingUtil {
         res.setContext(map(playMeta.getContextMeta()));
         res.setStatus(map(playMeta.getStatus()));
         return res;
+    }
+
+    public static Map<String, String> map(List<ParamDto> paramDtos) {
+        Map<String, String> res = new HashMap<>();
+        paramDtos.forEach(paramDto -> res.put(paramDto.getName(), paramDto.getValue()));
+        return res;
+    }
+
+    public static ContextMeta map(NewContextDto newContextDto) {
+        return new ContextMeta(
+                0,
+                newContextDto.getName(),
+                newContextDto.getDescription(),
+                map(newContextDto.getParams())
+        );
     }
 }
