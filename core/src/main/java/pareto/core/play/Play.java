@@ -9,28 +9,28 @@ public class Play extends Thread {
     private final Robot robot;
     private final Iterator<Quotation> quotationIterator;
 
-    private volatile Context context;
+    private volatile PlayState playState;
 
     public Play(
             Robot robot,
-            Context startContext,
+            PlayState startPlayState,
             Iterator<Quotation> quotationIterator
     ) {
         this.robot = robot;
         this.quotationIterator = quotationIterator;
-        this.context = startContext;
+        this.playState = startPlayState;
     }
 
     @Override
     public void run() {
         while (quotationIterator.hasNext()) {
             Quotation quotation = quotationIterator.next();
-            context = context.apply(quotation.getEvents());
-            context = context.apply(robot.handle(context));
+            playState = playState.apply(quotation.getEvents());
+            playState = playState.apply(robot.handle(playState));
         }
     }
 
-    public Context getContext() {
-        return context;
+    public PlayState getPlayState() {
+        return playState;
     }
 }

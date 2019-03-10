@@ -4,13 +4,13 @@ public class PlayMeta {
 
     private final long id;
     private final RobotMeta robotMeta;
-    private final ContextMeta contextMeta;
+    private final Context context;
     private final PlayStatus status;
 
-    public PlayMeta(long id, RobotMeta robotMeta, ContextMeta contextMeta, PlayStatus status) {
+    public PlayMeta(long id, RobotMeta robotMeta, Context context, PlayStatus status) {
         this.id = id;
         this.robotMeta = robotMeta;
-        this.contextMeta = contextMeta;
+        this.context = context;
         this.status = status;
     }
 
@@ -22,8 +22,8 @@ public class PlayMeta {
         return robotMeta;
     }
 
-    public ContextMeta getContextMeta() {
-        return contextMeta;
+    public Context getContext() {
+        return context;
     }
 
     public PlayStatus getStatus() {

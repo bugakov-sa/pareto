@@ -4,38 +4,40 @@ import org.springframework.web.bind.annotation.*;
 import pareto.core.api.dto.ContextDto;
 import pareto.core.api.dto.NewContextDto;
 import pareto.core.api.dto.mapper.MappingUtil;
-import pareto.core.entity.ContextMeta;
-import pareto.core.repository.ContextMetaRepository;
+import pareto.core.entity.Context;
+import pareto.core.service.ContextService;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @RestController
 public class ContextController {
 
-    private final ContextMetaRepository contextMetaRepository;
+    private final ContextService contextService;
 
-    public ContextController(ContextMetaRepository contextMetaRepository) {
-        this.contextMetaRepository = contextMetaRepository;
+    public ContextController(ContextService contextService) {
+        this.contextService = contextService;
     }
 
     @PostMapping("/context")
     public ContextDto createContext(@RequestBody NewContextDto newContextDto) {
-        long contextId = contextMetaRepository.saveNewContextMeta(MappingUtil.map(newContextDto));
-        ContextMeta contextMeta = contextMetaRepository.getContextMeta(contextId);
-        return MappingUtil.map(contextMeta);
+        Context newContext = contextService.createContext(
+                newContextDto.getName(),
+                newContextDto.getDescription(),
+                MappingUtil.map(newContextDto.getParams())
+        );
+        return MappingUtil.map(newContext);
     }
 
     @GetMapping("/context")
     public List<ContextDto> getAllContexts() {
-        return contextMetaRepository.getContextMetas()
-                .stream()
-                .map(MappingUtil::map)
-                .collect(Collectors.toList());
+        List<Context> contexts = contextService.getAllContexts();
+        return MappingUtil.mapContextMetas(contexts);
     }
 
     @GetMapping("/context/{id}")
     public ContextDto getContext(@PathVariable long id) {
-        return MappingUtil.map(contextMetaRepository.getContextMeta(id));
+        Optional<Context> context = contextService.getContext(id);
+        return context.map(MappingUtil::map).orElse(null);
     }
 }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface Robot {
 
-    List<Event> handle(Context state);
+    List<Event> handle(PlayState state);
 }

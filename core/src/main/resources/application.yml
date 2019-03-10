@@ -1,8 +1,13 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/pareto
+    url: jdbc:postgresql://localhost:5432/pareto?currentSchema=core
     username: pareto
     password: pareto
     driver-class-name: org.postgresql.Driver
   flyway:
     schemas: core
+  jpa:
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false

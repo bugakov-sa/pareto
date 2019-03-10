@@ -5,7 +5,7 @@ import pareto.core.entity.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Context {
+public class PlayState {
 
     private final PlayMeta playMeta;
     private volatile Portfolio portfolio;
@@ -13,7 +13,7 @@ public class Context {
     private volatile LocalDateTime time;
     private volatile Candle pnlCandle;
 
-    public Context(PlayMeta playMeta, Portfolio portfolio, Quotation quotation, LocalDateTime time) {
+    public PlayState(PlayMeta playMeta, Portfolio portfolio, Quotation quotation, LocalDateTime time) {
         this.playMeta = playMeta;
         this.portfolio = portfolio;
         this.quotation = quotation;
@@ -36,7 +36,7 @@ public class Context {
         return new PlayReport(playMeta, pnlCandle);
     }
 
-    public Context apply(List<Event> events) {
+    public PlayState apply(List<Event> events) {
         return this;
     }
 }
