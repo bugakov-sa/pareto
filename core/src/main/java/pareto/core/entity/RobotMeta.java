@@ -5,12 +5,12 @@ import java.util.Map;
 public class RobotMeta {
 
     private final long id;
-    private final AlgorithmMeta algorithmMeta;
+    private final Algorithm algorithm;
     private final Map<String, String> params;
 
-    public RobotMeta(long id, AlgorithmMeta algorithmMeta, Map<String, String> params) {
+    public RobotMeta(long id, Algorithm algorithm, Map<String, String> params) {
         this.id = id;
-        this.algorithmMeta = algorithmMeta;
+        this.algorithm = algorithm;
         this.params = params;
     }
 
@@ -18,8 +18,8 @@ public class RobotMeta {
         return id;
     }
 
-    public AlgorithmMeta getAlgorithmMeta() {
-        return algorithmMeta;
+    public Algorithm getAlgorithm() {
+        return algorithm;
     }
 
     public Map<String, String> getParams() {

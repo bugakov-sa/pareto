@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 
 public class MappingUtil {
 
-    public static AlgorithmDto map(AlgorithmMeta algorithmMeta) {
+    public static AlgorithmDto map(Algorithm algorithm) {
         AlgorithmDto res = new AlgorithmDto();
-        res.setId(algorithmMeta.getId());
-        res.setName(algorithmMeta.getName());
-        res.setDescription(algorithmMeta.getDescription());
+        res.setId(algorithm.getId());
+        res.setName(algorithm.getName());
+        res.setDescription(algorithm.getDescription());
         return res;
     }
 
@@ -32,7 +32,7 @@ public class MappingUtil {
     public static RobotDto map(RobotMeta robotMeta) {
         RobotDto res = new RobotDto();
         res.setId(robotMeta.getId());
-        res.setAlgorithm(map(robotMeta.getAlgorithmMeta()));
+        res.setAlgorithm(map(robotMeta.getAlgorithm()));
         res.setParams(map(robotMeta.getParams()));
         return res;
     }

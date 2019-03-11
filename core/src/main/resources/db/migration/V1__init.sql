@@ -1,11 +1,11 @@
 CREATE TABLE algorithm (
-    id BIGINT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT NOT NULL
 );
 
 CREATE TABLE robot (
-    id BIGINT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     algorithm_id BIGINT NOT NULL REFERENCES algorithm(id)
 );
 
