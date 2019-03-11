@@ -4,7 +4,7 @@ import pareto.core.entity.Event;
 
 import java.util.List;
 
-public interface Robot {
+public interface Player {
 
-    List<Event> handle(PlayState state);
+    List<Event> play(PlayState state);
 }

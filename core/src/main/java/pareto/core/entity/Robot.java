@@ -2,13 +2,13 @@ package pareto.core.entity;
 
 import java.util.Map;
 
-public class RobotMeta {
+public class Robot {
 
     private final long id;
     private final Algorithm algorithm;
     private final Map<String, String> params;
 
-    public RobotMeta(long id, Algorithm algorithm, Map<String, String> params) {
+    public Robot(long id, Algorithm algorithm, Map<String, String> params) {
         this.id = id;
         this.algorithm = algorithm;
         this.params = params;

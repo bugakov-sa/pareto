@@ -29,11 +29,11 @@ public class MappingUtil {
         return res;
     }
 
-    public static RobotDto map(RobotMeta robotMeta) {
+    public static RobotDto map(Robot robot) {
         RobotDto res = new RobotDto();
-        res.setId(robotMeta.getId());
-        res.setAlgorithm(map(robotMeta.getAlgorithm()));
-        res.setParams(map(robotMeta.getParams()));
+        res.setId(robot.getId());
+        res.setAlgorithm(map(robot.getAlgorithm()));
+        res.setParams(map(robot.getParams()));
         return res;
     }
 
@@ -51,7 +51,7 @@ public class MappingUtil {
     public static PlayDto map(PlayMeta playMeta) {
         PlayDto res = new PlayDto();
         res.setId(playMeta.getId());
-        res.setRobot(map(playMeta.getRobotMeta()));
+        res.setRobot(map(playMeta.getRobot()));
         res.setContext(map(playMeta.getContext()));
         res.setStatus(map(playMeta.getStatus()));
         return res;

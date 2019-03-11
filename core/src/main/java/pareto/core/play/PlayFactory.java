@@ -11,22 +11,22 @@ import java.util.Iterator;
 @Service
 public class PlayFactory {
 
-    private final RobotFactory robotFactory;
+    private final PlayerFactory playerFactory;
     private final PlayStateFactory playStateFactory;
     private final QuotationRepository quotationRepository;
 
     public PlayFactory(
-            RobotFactory robotFactory,
+            PlayerFactory playerFactory,
             PlayStateFactory playStateFactory,
             QuotationRepository quotationRepository
     ) {
-        this.robotFactory = robotFactory;
+        this.playerFactory = playerFactory;
         this.playStateFactory = playStateFactory;
         this.quotationRepository = quotationRepository;
     }
 
     public Play createPlay(PlayMeta playMeta) {
-        Robot robot = robotFactory.createRobot(playMeta.getRobotMeta());
+        Player player = playerFactory.createRobot(playMeta.getRobot());
         Context context = playMeta.getContext();
         PlayState startPlayState = playStateFactory.createPlayState(context);
         Iterator<Quotation> quotationIterator = quotationRepository.getQuotationIterator(
@@ -34,6 +34,6 @@ public class PlayFactory {
                 context.getToTime(),
                 context.getProducts()
         );
-        return new Play(robot, startPlayState, quotationIterator);
+        return new Play(player, startPlayState, quotationIterator);
     }
 }

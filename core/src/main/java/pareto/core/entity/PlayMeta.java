@@ -3,13 +3,13 @@ package pareto.core.entity;
 public class PlayMeta {
 
     private final long id;
-    private final RobotMeta robotMeta;
+    private final Robot robot;
     private final Context context;
     private final PlayStatus status;
 
-    public PlayMeta(long id, RobotMeta robotMeta, Context context, PlayStatus status) {
+    public PlayMeta(long id, Robot robot, Context context, PlayStatus status) {
         this.id = id;
-        this.robotMeta = robotMeta;
+        this.robot = robot;
         this.context = context;
         this.status = status;
     }
@@ -18,8 +18,8 @@ public class PlayMeta {
         return id;
     }
 
-    public RobotMeta getRobotMeta() {
-        return robotMeta;
+    public Robot getRobot() {
+        return robot;
     }
 
     public Context getContext() {

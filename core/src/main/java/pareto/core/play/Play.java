@@ -6,17 +6,17 @@ import java.util.Iterator;
 
 public class Play extends Thread {
 
-    private final Robot robot;
+    private final Player player;
     private final Iterator<Quotation> quotationIterator;
 
     private volatile PlayState playState;
 
     public Play(
-            Robot robot,
+            Player player,
             PlayState startPlayState,
             Iterator<Quotation> quotationIterator
     ) {
-        this.robot = robot;
+        this.player = player;
         this.quotationIterator = quotationIterator;
         this.playState = startPlayState;
     }
@@ -26,7 +26,7 @@ public class Play extends Thread {
         while (quotationIterator.hasNext()) {
             Quotation quotation = quotationIterator.next();
             playState = playState.apply(quotation.getEvents());
-            playState = playState.apply(robot.handle(playState));
+            playState = playState.apply(player.play(playState));
         }
     }
 
