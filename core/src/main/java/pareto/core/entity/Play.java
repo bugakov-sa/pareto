@@ -1,13 +1,13 @@
 package pareto.core.entity;
 
-public class PlayMeta {
+public class Play {
 
     private final long id;
     private final Robot robot;
     private final Context context;
     private final PlayStatus status;
 
-    public PlayMeta(long id, Robot robot, Context context, PlayStatus status) {
+    public Play(long id, Robot robot, Context context, PlayStatus status) {
         this.id = id;
         this.robot = robot;
         this.context = context;

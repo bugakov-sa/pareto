@@ -2,7 +2,7 @@ package pareto.core.service;
 
 import org.springframework.stereotype.Service;
 import pareto.core.entity.PlayReport;
-import pareto.core.repository.PlayMetaRepository;
+import pareto.core.repository.PlayRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,10 +10,10 @@ import java.util.List;
 @Service
 public class PlayService {
 
-    private final PlayMetaRepository playMetaRepository;
+    private final PlayRepository playRepository;
 
-    public PlayService(PlayMetaRepository playMetaRepository) {
-        this.playMetaRepository = playMetaRepository;
+    public PlayService(PlayRepository playRepository) {
+        this.playRepository = playRepository;
     }
 
     public PlayReport createPlay(long robotId, long contextId) {

@@ -44,12 +44,12 @@ public class MappingUtil {
         }
     }
 
-    public static PlayDto map(PlayMeta playMeta) {
+    public static PlayDto map(Play play) {
         PlayDto res = new PlayDto();
-        res.setId(playMeta.getId());
-        res.setRobot(map(playMeta.getRobot()));
-        res.setContext(map(playMeta.getContext()));
-        res.setStatus(map(playMeta.getStatus()));
+        res.setId(play.getId());
+        res.setRobot(map(play.getRobot()));
+        res.setContext(map(play.getContext()));
+        res.setStatus(map(play.getStatus()));
         return res;
     }
 

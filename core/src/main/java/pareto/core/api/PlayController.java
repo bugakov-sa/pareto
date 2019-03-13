@@ -23,7 +23,7 @@ public class PlayController {
     public PlayDto createPlay(NewPlayDto newPlayDto) {
 
         PlayReport playReport = playService.createPlay(newPlayDto.getRobotId(), newPlayDto.getContextId());
-        PlayDto playDto = MappingUtil.map(playReport.getPlayMeta());
+        PlayDto playDto = MappingUtil.map(playReport.getPlay());
         return playDto;
     }
 

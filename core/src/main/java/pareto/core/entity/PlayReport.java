@@ -2,16 +2,16 @@ package pareto.core.entity;
 
 
 public class PlayReport {
-    private final PlayMeta playMeta;
+    private final Play play;
     private final Candle pnlCandle;
 
-    public PlayReport(PlayMeta playMeta, Candle pnlCandle) {
-        this.playMeta = playMeta;
+    public PlayReport(Play play, Candle pnlCandle) {
+        this.play = play;
         this.pnlCandle = pnlCandle;
     }
 
-    public PlayMeta getPlayMeta() {
-        return playMeta;
+    public Play getPlay() {
+        return play;
     }
 
     public Candle getPnlCandle() {

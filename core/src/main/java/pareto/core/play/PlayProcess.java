@@ -4,14 +4,14 @@ import pareto.core.entity.Quotation;
 
 import java.util.Iterator;
 
-public class Play extends Thread {
+public class PlayProcess extends Thread {
 
     private final Player player;
     private final Iterator<Quotation> quotationIterator;
 
     private volatile PlayState playState;
 
-    public Play(
+    public PlayProcess(
             Player player,
             PlayState startPlayState,
             Iterator<Quotation> quotationIterator

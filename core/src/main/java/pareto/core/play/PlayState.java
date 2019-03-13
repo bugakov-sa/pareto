@@ -7,14 +7,14 @@ import java.util.List;
 
 public class PlayState {
 
-    private final PlayMeta playMeta;
+    private final Play play;
     private volatile Portfolio portfolio;
     private volatile Quotation quotation;
     private volatile LocalDateTime time;
     private volatile Candle pnlCandle;
 
-    public PlayState(PlayMeta playMeta, Portfolio portfolio, Quotation quotation, LocalDateTime time) {
-        this.playMeta = playMeta;
+    public PlayState(Play play, Portfolio portfolio, Quotation quotation, LocalDateTime time) {
+        this.play = play;
         this.portfolio = portfolio;
         this.quotation = quotation;
         this.time = time;
@@ -33,7 +33,7 @@ public class PlayState {
     }
 
     public PlayReport getPlayReport() {
-        return new PlayReport(playMeta, pnlCandle);
+        return new PlayReport(play, pnlCandle);
     }
 
     public PlayState apply(List<Event> events) {
