@@ -32,7 +32,7 @@ public class ContextController {
     @GetMapping("/context")
     public List<ContextDto> getAllContexts() {
         List<Context> contexts = contextService.getAllContexts();
-        return MappingUtil.mapContextMetas(contexts);
+        return MappingUtil.mapContexts(contexts);
     }
 
     @GetMapping("/context/{id}")

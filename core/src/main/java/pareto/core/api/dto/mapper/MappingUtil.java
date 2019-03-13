@@ -3,9 +3,7 @@ package pareto.core.api.dto.mapper;
 import pareto.core.api.dto.*;
 import pareto.core.entity.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MappingUtil {
@@ -18,22 +16,20 @@ public class MappingUtil {
         return res;
     }
 
-    public static List<ParamDto> map(Map<String, String> params) {
-        List<ParamDto> res = new ArrayList<>();
-        params.forEach((name, value) -> {
-            ParamDto paramDto = new ParamDto();
-            paramDto.setName(name);
-            paramDto.setValue(value);
-            res.add(paramDto);
-        });
-        return res;
+    public static List<RobotParam> mapToRobotParams(List<ParamDto> paramDtos) {
+        return paramDtos.stream().map(paramDto -> {
+            RobotParam robotParam = new RobotParam();
+            robotParam.setName(paramDto.getName());
+            robotParam.setValue(paramDto.getValue());
+            return robotParam;
+        }).collect(Collectors.toList());
     }
 
     public static RobotDto map(Robot robot) {
         RobotDto res = new RobotDto();
         res.setId(robot.getId());
         res.setAlgorithm(map(robot.getAlgorithm()));
-        res.setParams(map(robot.getParams()));
+        res.setParams(robot.getParams().stream().map(MappingUtil::map).collect(Collectors.toList()));
         return res;
     }
 
@@ -73,6 +69,13 @@ public class MappingUtil {
         return res;
     }
 
+    public static ParamDto map(RobotParam robotParam) {
+        ParamDto res = new ParamDto();
+        res.setName(robotParam.getName());
+        res.setValue(robotParam.getValue());
+        return res;
+    }
+
     public static ContextDto map(Context context) {
         ContextDto res = new ContextDto();
         res.setId(context.getId());
@@ -82,7 +85,11 @@ public class MappingUtil {
         return res;
     }
 
-    public static List<ContextDto> mapContextMetas(List<Context> contexts) {
+    public static List<ContextDto> mapContexts(List<Context> contexts) {
         return contexts.stream().map(MappingUtil::map).collect(Collectors.toList());
+    }
+
+    public static List<RobotDto> mapRobots(List<Robot> robots) {
+        return robots.stream().map(MappingUtil::map).collect(Collectors.toList());
     }
 }
