@@ -30,13 +30,13 @@ CREATE TABLE context_param (
 );
 
 CREATE TABLE play (
-    id BIGINT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     robot_id BIGINT REFERENCES robot(id),
     context_id BIGINT REFERENCES context(id)
 );
 
 CREATE TABLE play_event (
-    id BIGINT PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     play_id BIGINT REFERENCES play(id),
     time TIMESTAMP NOT NULL,
     event_type SMALLINT

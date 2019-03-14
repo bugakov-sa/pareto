@@ -5,7 +5,7 @@ public class PlayDto {
     private long id;
     private RobotDto robot;
     private ContextDto context;
-    private String status;
+    private int status;
 
     public long getId() {
         return id;
@@ -31,11 +31,11 @@ public class PlayDto {
         this.context = context;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 }

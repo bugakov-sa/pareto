@@ -33,26 +33,6 @@ public class MappingUtil {
         return res;
     }
 
-    public static String map(PlayStatus playStatus) {
-        switch (playStatus) {
-            case CREATED:
-                return "created";
-            case PLAYING:
-                return "playing";
-            default:
-                return "stopped";
-        }
-    }
-
-    public static PlayDto map(Play play) {
-        PlayDto res = new PlayDto();
-        res.setId(play.getId());
-        res.setRobot(map(play.getRobot()));
-        res.setContext(map(play.getContext()));
-        res.setStatus(map(play.getStatus()));
-        return res;
-    }
-
     public static List<ContextParam> map(List<ParamDto> paramDtos) {
         return paramDtos.stream().map(paramDto -> {
             ContextParam contextParam = new ContextParam();
@@ -91,5 +71,23 @@ public class MappingUtil {
 
     public static List<RobotDto> mapRobots(List<Robot> robots) {
         return robots.stream().map(MappingUtil::map).collect(Collectors.toList());
+    }
+
+    public static PlayDto map(Play play) {
+        PlayDto res = new PlayDto();
+        res.setId(play.getId());
+        res.setRobot(map(play.getRobot()));
+        res.setContext(map(play.getContext()));
+        Integer status = play.getStatus()
+                .stream()
+                .reduce((s1, s2) -> s1.getTime().isAfter(s2.getTime()) ? s1 : s2)
+                .map(PlayStatus::getStatusCode)
+                .orElse(0);
+        res.setStatus(status);
+        return res;
+    }
+
+    public static List<PlayDto> mapPlays(List<Play> plays) {
+        return plays.stream().map(MappingUtil::map).collect(Collectors.toList());
     }
 }

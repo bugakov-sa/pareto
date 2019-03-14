@@ -1,14 +1,7 @@
 package pareto.core.repository;
 
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import pareto.core.entity.Play;
 
-@Repository
-public class PlayRepository {
-
-    private final NamedParameterJdbcTemplate jdbcTemplate;
-
-    public PlayRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+public interface PlayRepository extends JpaRepository<Play, Long> {
 }
