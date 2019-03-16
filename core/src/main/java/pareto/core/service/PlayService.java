@@ -57,4 +57,9 @@ public class PlayService {
     public Optional<Play> getPlay(long id) {
         return playRepository.findById(id);
     }
+
+    public List<Play> getNewPlays() {
+
+        return new ArrayList<>();
+    }
 }

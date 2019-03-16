@@ -25,7 +25,7 @@ public class PlayProcessFactory {
         this.quotationRepository = quotationRepository;
     }
 
-    public PlayProcess createPlay(Play play) {
+    public PlayProcess createPlayProcess(Play play) {
         Player player = playerFactory.createRobot(play.getRobot());
         Context context = play.getContext();
         PlayState startPlayState = playStateFactory.createPlayState(context);
