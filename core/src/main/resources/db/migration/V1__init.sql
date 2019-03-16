@@ -35,6 +35,16 @@ CREATE TABLE play (
     context_id BIGINT REFERENCES context(id)
 );
 
+CREATE TABLE play_pnl (
+    play_id BIGINT,
+    time TIMESTAMP,
+    open INTEGER NOT NULL,
+    close INTEGER NOT NULL,
+    min INTEGER NOT NULL,
+    max INTEGER NOT NULL,
+    PRIMARY KEY (play_id, time)
+);
+
 CREATE TABLE play_event (
     id SERIAL PRIMARY KEY,
     play_id BIGINT REFERENCES play(id),
@@ -53,4 +63,14 @@ CREATE TABLE play_status (
     play_id BIGINT REFERENCES play(id),
     time TIMESTAMP NOT NULL,
     status SMALLINT
+);
+
+CREATE TABLE product (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
+CREATE TABLE product_quotation (
+    product_id BIGINT REFERENCES product(id),
+    name TEXT NOT NULL
 );
