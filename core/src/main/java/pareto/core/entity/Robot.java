@@ -1,20 +1,12 @@
 package pareto.core.entity;
 
-import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@Table(name = "robot")
 public class Robot {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "algorithm_id")
-    private Algorithm algorithm;
-    @OneToMany(mappedBy = "robotId", cascade = CascadeType.ALL)
-    private List<RobotParam> params;
+    private String className;
+    private List<Param> params;
 
     public Long getId() {
         return id;
@@ -24,19 +16,19 @@ public class Robot {
         this.id = id;
     }
 
-    public Algorithm getAlgorithm() {
-        return algorithm;
+    public String getClassName() {
+        return className;
     }
 
-    public void setAlgorithm(Algorithm algorithm) {
-        this.algorithm = algorithm;
+    public void setClassName(String className) {
+        this.className = className;
     }
 
-    public List<RobotParam> getParams() {
+    public List<Param> getParams() {
         return params;
     }
 
-    public void setParams(List<RobotParam> params) {
+    public void setParams(List<Param> params) {
         this.params = params;
     }
 }

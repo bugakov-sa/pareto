@@ -1,12 +1,6 @@
-CREATE TABLE algorithm (
-    id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    description TEXT NOT NULL
-);
-
 CREATE TABLE robot (
     id SERIAL PRIMARY KEY,
-    algorithm_id BIGINT NOT NULL REFERENCES algorithm(id)
+    class_name TEXT NOT NULL
 );
 
 CREATE TABLE robot_param (

@@ -3,8 +3,8 @@ package pareto.core.api.dto;
 public class PlayDto {
 
     private long id;
-    private RobotDto robot;
-    private ContextDto context;
+    private long robotId;
+    private long contextId;
     private int status;
 
     public long getId() {
@@ -15,20 +15,20 @@ public class PlayDto {
         this.id = id;
     }
 
-    public RobotDto getRobot() {
-        return robot;
+    public long getRobotId() {
+        return robotId;
     }
 
-    public void setRobot(RobotDto robot) {
-        this.robot = robot;
+    public void setRobotId(long robotId) {
+        this.robotId = robotId;
     }
 
-    public ContextDto getContext() {
-        return context;
+    public long getContextId() {
+        return contextId;
     }
 
-    public void setContext(ContextDto context) {
-        this.context = context;
+    public void setContextId(long contextId) {
+        this.contextId = contextId;
     }
 
     public int getStatus() {

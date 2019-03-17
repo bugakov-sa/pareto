@@ -1,22 +1,14 @@
 package pareto.core.entity;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-@Table(name = "context")
 public class Context {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
     private String name;
-    @Column
     private String description;
-    @OneToMany(mappedBy = "contextId", cascade = CascadeType.ALL)
-    private List<ContextParam> params;
+    private List<Param> params;
 
     public Long getId() {
         return id;
@@ -42,11 +34,11 @@ public class Context {
         this.description = description;
     }
 
-    public List<ContextParam> getParams() {
+    public List<Param> getParams() {
         return params;
     }
 
-    public void setParams(List<ContextParam> params) {
+    public void setParams(List<Param> params) {
         this.params = params;
     }
 

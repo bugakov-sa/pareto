@@ -4,15 +4,15 @@ import java.util.List;
 
 public class NewRobotDto {
 
-    private long algorithmId;
+    private String className;
     private List<ParamDto> params;
 
-    public long getAlgorithmId() {
-        return algorithmId;
+    public String getClassName() {
+        return className;
     }
 
-    public void setAlgorithmId(long algorithmId) {
-        this.algorithmId = algorithmId;
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public List<ParamDto> getParams() {

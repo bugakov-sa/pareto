@@ -1,58 +1,40 @@
 package pareto.core.api.dto.mapper;
 
-import pareto.core.api.dto.*;
-import pareto.core.entity.*;
+import pareto.core.api.dto.ContextDto;
+import pareto.core.api.dto.ParamDto;
+import pareto.core.api.dto.PlayDto;
+import pareto.core.api.dto.RobotDto;
+import pareto.core.entity.Context;
+import pareto.core.entity.Param;
+import pareto.core.entity.Play;
+import pareto.core.entity.Robot;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MappingUtil {
 
-    public static AlgorithmDto map(Algorithm algorithm) {
-        AlgorithmDto res = new AlgorithmDto();
-        res.setId(algorithm.getId());
-        res.setName(algorithm.getName());
-        res.setDescription(algorithm.getDescription());
-        return res;
-    }
-
-    public static List<RobotParam> mapToRobotParams(List<ParamDto> paramDtos) {
-        return paramDtos.stream().map(paramDto -> {
-            RobotParam robotParam = new RobotParam();
-            robotParam.setName(paramDto.getName());
-            robotParam.setValue(paramDto.getValue());
-            return robotParam;
-        }).collect(Collectors.toList());
-    }
-
     public static RobotDto map(Robot robot) {
         RobotDto res = new RobotDto();
         res.setId(robot.getId());
-        res.setAlgorithm(map(robot.getAlgorithm()));
+        res.setClassName(robot.getClassName());
         res.setParams(robot.getParams().stream().map(MappingUtil::map).collect(Collectors.toList()));
         return res;
     }
 
-    public static List<ContextParam> map(List<ParamDto> paramDtos) {
+    public static List<Param> map(List<ParamDto> paramDtos) {
         return paramDtos.stream().map(paramDto -> {
-            ContextParam contextParam = new ContextParam();
-            contextParam.setName(paramDto.getName());
-            contextParam.setValue(paramDto.getValue());
-            return contextParam;
+            Param param = new Param();
+            param.setName(paramDto.getName());
+            param.setValue(paramDto.getValue());
+            return param;
         }).collect(Collectors.toList());
     }
 
-    public static ParamDto map(ContextParam contextParam) {
+    public static ParamDto map(Param param) {
         ParamDto res = new ParamDto();
-        res.setName(contextParam.getName());
-        res.setValue(contextParam.getValue());
-        return res;
-    }
-
-    public static ParamDto map(RobotParam robotParam) {
-        ParamDto res = new ParamDto();
-        res.setName(robotParam.getName());
-        res.setValue(robotParam.getValue());
+        res.setName(param.getName());
+        res.setValue(param.getValue());
         return res;
     }
 
@@ -76,8 +58,8 @@ public class MappingUtil {
     public static PlayDto map(Play play) {
         PlayDto res = new PlayDto();
         res.setId(play.getId());
-        res.setRobot(map(play.getRobot()));
-        res.setContext(map(play.getContext()));
+        res.setRobotId(play.getRobotId());
+        res.setContextId(play.getContextId());
         res.setStatus(play.getStatus());
         return res;
     }

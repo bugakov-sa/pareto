@@ -4,14 +4,12 @@ import org.springframework.web.bind.annotation.*;
 import pareto.core.api.dto.NewRobotDto;
 import pareto.core.api.dto.RobotDto;
 import pareto.core.api.dto.mapper.MappingUtil;
+import pareto.core.entity.Param;
 import pareto.core.entity.Robot;
-import pareto.core.entity.RobotParam;
 import pareto.core.service.RobotService;
 
 import java.util.List;
 import java.util.Optional;
-
-import static pareto.core.api.dto.mapper.MappingUtil.mapToRobotParams;
 
 @RestController
 public class RobotController {
@@ -24,11 +22,10 @@ public class RobotController {
 
     @PostMapping("/robot")
     public RobotDto createRobot(@RequestBody NewRobotDto dto) {
-        List<RobotParam> robotParams = mapToRobotParams(dto.getParams());
-        Robot robot = robotService.createRobot(dto.getAlgorithmId(), robotParams);
+        List<Param> params = MappingUtil.map(dto.getParams());
+        Robot robot = robotService.createRobot(dto.getClassName(), params);
         return MappingUtil.map(robot);
     }
-
 
 
     @GetMapping("/robot")

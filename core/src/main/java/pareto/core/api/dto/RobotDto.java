@@ -5,7 +5,7 @@ import java.util.List;
 public class RobotDto {
 
     private long id;
-    private AlgorithmDto algorithm;
+    private String className;
     private List<ParamDto> params;
 
     public long getId() {
@@ -16,12 +16,12 @@ public class RobotDto {
         this.id = id;
     }
 
-    public AlgorithmDto getAlgorithm() {
-        return algorithm;
+    public String getClassName() {
+        return className;
     }
 
-    public void setAlgorithm(AlgorithmDto algorithm) {
-        this.algorithm = algorithm;
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public List<ParamDto> getParams() {

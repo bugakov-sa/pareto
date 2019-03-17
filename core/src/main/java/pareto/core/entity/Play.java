@@ -1,21 +1,10 @@
 package pareto.core.entity;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "play")
 public class Play {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "robot_id")
-    private Robot robot;
-    @ManyToOne
-    @JoinColumn(name = "context_id")
-    private Context context;
-    @Column
+    private Long robotId;
+    private Long contextId;
     private int status;
 
     public Long getId() {
@@ -26,20 +15,20 @@ public class Play {
         this.id = id;
     }
 
-    public Robot getRobot() {
-        return robot;
+    public Long getRobotId() {
+        return robotId;
     }
 
-    public void setRobot(Robot robot) {
-        this.robot = robot;
+    public void setRobotId(Long robotId) {
+        this.robotId = robotId;
     }
 
-    public Context getContext() {
-        return context;
+    public Long getContextId() {
+        return contextId;
     }
 
-    public void setContext(Context context) {
-        this.context = context;
+    public void setContextId(Long contextId) {
+        this.contextId = contextId;
     }
 
     public int getStatus() {

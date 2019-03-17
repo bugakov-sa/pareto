@@ -1,64 +1,77 @@
 package pareto.core.service;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
-import pareto.core.entity.Context;
 import pareto.core.entity.Play;
-import pareto.core.entity.Robot;
-import pareto.core.repository.ContextRepository;
-import pareto.core.repository.PlayRepository;
-import pareto.core.repository.RobotRepository;
 
+import javax.sql.DataSource;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class PlayService {
 
-    private final RobotRepository robotRepository;
-    private final ContextRepository contextRepository;
-    private final PlayRepository playRepository;
+    private final String schemaName;
+    private final DataSource dataSource;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public PlayService(RobotRepository robotRepository, ContextRepository contextRepository, PlayRepository playRepository) {
-        this.robotRepository = robotRepository;
-        this.contextRepository = contextRepository;
-        this.playRepository = playRepository;
+    public PlayService(
+            @Value("${spring.flyway.schemas}") String schemaName,
+            DataSource dataSource,
+            NamedParameterJdbcTemplate namedParameterJdbcTemplate
+    ) {
+        this.schemaName = schemaName;
+        this.dataSource = dataSource;
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     public Play createPlay(long robotId, long contextId) {
-        Play play = new Play();
-        Optional<Robot> robot = robotRepository.findById(robotId);
-        if(robot.isEmpty()) {
-            //TODO
-        }
-        Optional<Context> context = contextRepository.findById(contextId);
-        if(context.isEmpty()) {
-            //TODO
-        }
-        play.setRobot(robot.get());
-        play.setContext(context.get());
-        play.setStatus(0);
-        playRepository.save(play);
-        return play;
+        SimpleJdbcInsert playInsert = new SimpleJdbcInsert(dataSource)
+                .withSchemaName(schemaName)
+                .withTableName("play")
+                .usingColumns("robot_id", "context_id", "status")
+                .usingGeneratedKeyColumns("id");
+        Map<String, ?> playInsertParams = Map.of(
+                "robot_id", robotId,
+                "context_id", contextId,
+                "status", 0
+        );
+        long playId = playInsert.executeAndReturnKey(playInsertParams).longValue();
+        return getPlay(playId).get();
     }
 
     public void updatePlayStatus(long id, int status) {
-        Optional<Play> play = playRepository.findById(id);
-        if(play.isEmpty()) {
-            //TODO
-        }
-        play.get().setStatus(status);
-        playRepository.save(play.get());
+        namedParameterJdbcTemplate.update(
+                "update play set status = :status where id = :id",
+                Map.of("status", status, "id", id)
+        );
     }
 
     public List<Play> getAllPlays() {
-        return playRepository.findAll();
-    }
-
-    public Optional<Play> getPlay(long id) {
-        return playRepository.findById(id);
+        return namedParameterJdbcTemplate.query("select * from play order by id", getRowMapper());
     }
 
     public List<Play> getNewPlays() {
-        return playRepository.findByStatus(0);
+        return namedParameterJdbcTemplate.query("select * from play where status = 0 order by id", getRowMapper());
+    }
+
+    public Optional<Play> getPlay(long id) {
+        return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
+                "select * from play where id = :id", Map.of("id", id), getRowMapper()));
+    }
+
+    private RowMapper<Play> getRowMapper() {
+        return (rs, rowNum) -> {
+            Play play = new Play();
+            play.setId(rs.getLong("id"));
+            play.setRobotId(rs.getLong("robot_id"));
+            play.setContextId(rs.getLong("context_id"));
+            play.setStatus(rs.getInt("status"));
+            return play;
+        };
     }
 }
