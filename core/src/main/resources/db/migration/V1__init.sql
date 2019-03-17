@@ -32,7 +32,8 @@ CREATE TABLE context_param (
 CREATE TABLE play (
     id SERIAL PRIMARY KEY,
     robot_id BIGINT REFERENCES robot(id),
-    context_id BIGINT REFERENCES context(id)
+    context_id BIGINT REFERENCES context(id),
+    status INTEGER NOT NULL
 );
 
 CREATE TABLE play_pnl (

@@ -26,11 +26,11 @@ public class PlayProcessFactory {
     }
 
     public PlayProcess createPlayProcess(Play play) {
-        Player player = playerFactory.createRobot(play.getRobot());
+        Player player = playerFactory.createPlayer(play.getRobot());
         Context context = play.getContext();
         PlayState startPlayState = playStateFactory.createPlayState(context);
         Iterator<Quotation> quotationIterator = quotationRepository.getQuotationIterator(
-                startPlayState.getTime(),
+                context.getFromTime(),
                 context.getToTime(),
                 context.getProducts()
         );

@@ -1,14 +1,15 @@
 package pareto.core.play;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import pareto.core.entity.Play;
 import pareto.core.service.PlayService;
-
-import java.util.List;
 
 @Service
 public class PlayProcessStarter {
+
+    private static final Logger log = LoggerFactory.getLogger(PlayProcessStarter.class);
 
     private final PlayService playService;
     private final PlayProcessFactory playProcessFactory;
@@ -20,13 +21,17 @@ public class PlayProcessStarter {
 
     @Scheduled(fixedDelay = 5000)
     public void startNewPlays() {
-        List<Play> newPlays = playService.getNewPlays();
-        if(newPlays.isEmpty()) {
-            return;
-        }
-        newPlays.forEach(play -> {
-            PlayProcess playProcess = playProcessFactory.createPlayProcess(play);
-            playProcess.start();
+        playService.getNewPlays().forEach(play -> {
+            Long playId = play.getId();
+            try {
+                PlayProcess playProcess = playProcessFactory.createPlayProcess(play);
+                playProcess.start();
+                log.info("Play {} - Started play process", playId);
+                playService.updatePlayStatus(playId, 1);
+            } catch (Throwable e) {
+                log.error("Play = {} - Error during starting play process", playId, e);
+                playService.updatePlayStatus(playId, 0);
+            }
         });
     }
 }

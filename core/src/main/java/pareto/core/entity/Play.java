@@ -1,7 +1,6 @@
 package pareto.core.entity;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "play")
@@ -16,8 +15,8 @@ public class Play {
     @ManyToOne
     @JoinColumn(name = "context_id")
     private Context context;
-    @OneToMany(mappedBy = "playId", cascade = CascadeType.ALL)
-    private List<PlayStatus> status;
+    @Column
+    private int status;
 
     public Long getId() {
         return id;
@@ -43,11 +42,11 @@ public class Play {
         this.context = context;
     }
 
-    public List<PlayStatus> getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(List<PlayStatus> status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 }

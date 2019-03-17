@@ -6,7 +6,7 @@ import pareto.core.entity.Robot;
 @Service
 public class PlayerFactory {
 
-    public Player createRobot(Robot robot) {
+    public Player createPlayer(Robot robot) {
         return null;
     }
 }

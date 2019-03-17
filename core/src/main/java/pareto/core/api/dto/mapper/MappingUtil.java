@@ -78,12 +78,7 @@ public class MappingUtil {
         res.setId(play.getId());
         res.setRobot(map(play.getRobot()));
         res.setContext(map(play.getContext()));
-        Integer status = play.getStatus()
-                .stream()
-                .reduce((s1, s2) -> s1.getTime().isAfter(s2.getTime()) ? s1 : s2)
-                .map(PlayStatus::getStatusCode)
-                .orElse(0);
-        res.setStatus(status);
+        res.setStatus(play.getStatus());
         return res;
     }
 
