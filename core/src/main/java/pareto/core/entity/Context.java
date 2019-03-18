@@ -5,6 +5,11 @@ import java.util.List;
 
 public class Context {
 
+    private static final String PARAM_NAME_PRODUCTS = "products";
+    private static final String PARAM_NAME_FROM_TIME = "from";
+    private static final String PARAM_NAME_FROM_TO = "to";
+    private static final String PARAM_NAME_START_SUM = "start_sum";
+
     private Long id;
     private String name;
     private String description;
@@ -42,6 +47,14 @@ public class Context {
         this.params = params;
     }
 
+    private String getParamValue(String paramName) {
+        return params.stream()
+                .filter(param -> param.getName().equals(paramName))
+                .map(Param::getValue)
+                .findFirst()
+                .orElse(null);
+    }
+
     public LocalDateTime getFromTime() {
         return null;
     }
@@ -52,5 +65,9 @@ public class Context {
 
     public List<Long> getProducts() {
         return null;
+    }
+
+    public int getStartSum() {
+        return Integer.parseInt(getParamValue(PARAM_NAME_START_SUM));
     }
 }

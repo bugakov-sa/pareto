@@ -7,6 +7,6 @@ import pareto.core.entity.Context;
 public class PlayStateFactory {
 
     public PlayState createPlayState(Context context) {
-        return null;//TODO
+        return new PlayState(context.getStartSum());
     }
 }

@@ -5,9 +5,7 @@ import pareto.core.entity.Context;
 import pareto.core.entity.Play;
 import pareto.core.entity.Quotation;
 import pareto.core.entity.Robot;
-import pareto.core.service.ContextService;
-import pareto.core.service.QuotationService;
-import pareto.core.service.RobotService;
+import pareto.core.service.*;
 
 import java.util.Iterator;
 import java.util.List;
@@ -20,19 +18,25 @@ public class PlayProcessFactory {
     private final QuotationService quotationService;
     private final RobotService robotService;
     private final ContextService contextService;
+    private final EventService eventService;
+    private final PlayPnlService playPnlService;
 
     public PlayProcessFactory(
             PlayerFactory playerFactory,
             PlayStateFactory playStateFactory,
             QuotationService quotationService,
             RobotService robotService,
-            ContextService contextService
+            ContextService contextService,
+            EventService eventService,
+            PlayPnlService playPnlService
     ) {
         this.playerFactory = playerFactory;
         this.playStateFactory = playStateFactory;
         this.quotationService = quotationService;
         this.robotService = robotService;
         this.contextService = contextService;
+        this.eventService = eventService;
+        this.playPnlService = playPnlService;
     }
 
     public PlayProcess createPlayProcess(Play play) {
@@ -45,6 +49,6 @@ public class PlayProcessFactory {
                 context.getFromTime(),
                 context.getToTime()
         );
-        return new PlayProcess(player, startPlayState, quotationIterator);
+        return new PlayProcess(player, startPlayState, quotationIterator, eventService, playPnlService);
     }
 }

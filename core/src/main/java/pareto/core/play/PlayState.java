@@ -2,45 +2,34 @@ package pareto.core.play;
 
 import pareto.core.entity.*;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayState {
 
-    private final Play play;
-    private volatile Portfolio portfolio;
-    private volatile List<Quotation> quotations;
-    private volatile LocalDateTime time;
-    private volatile Candle pnlCandle;
+    private int sum;
+    private List<Order> orders = new ArrayList<>();
+    private List<Position> positions = new ArrayList<>();
+    private List<Quotation> quotations;
 
-    public PlayState(Play play, Portfolio portfolio, List<Quotation> quotations, LocalDateTime time) {
-        this.play = play;
-        this.portfolio = portfolio;
+    public PlayState(int startSum) {
+        sum = startSum;
+    }
+
+    public List<Event> applyOrders(List<Order> orders) {
+        this.orders.addAll(orders);
+        //TODO convert orders to events
+        return new ArrayList<>();
+    }
+
+    public List<Event> applyQuotations(List<Quotation> quotations) {
         this.quotations = quotations;
-        this.time = time;
+        //TODO execute orders and convert executions to events
+        return new ArrayList<>();
     }
 
-    public Portfolio getPortfolio() {
-        return portfolio;
-    }
-
-    public List<Quotation> getQuotation() {
-        return quotations;
-    }
-
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public PlayReport getPlayReport() {
-        return new PlayReport(play, pnlCandle);
-    }
-
-    public PlayState applyEvents(List<Event> events) {
-        return this;
-    }
-
-    public PlayState applyQuotations(List<Quotation> quotations) {
-        return this;
+    public PlayPnl getPlayPnl() {
+        //TODO
+        return null;
     }
 }

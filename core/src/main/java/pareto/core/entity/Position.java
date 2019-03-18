@@ -1,4 +1,4 @@
 package pareto.core.entity;
 
-public class Portfolio {
+public class Position {
 }
