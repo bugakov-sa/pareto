@@ -5,10 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import pareto.core.api.ContextController;
-import pareto.core.api.PlayController;
-import pareto.core.api.ProductController;
-import pareto.core.api.RobotController;
+import pareto.core.api.*;
 import pareto.core.api.dto.*;
 
 import java.util.ArrayList;
@@ -31,6 +28,8 @@ public class CoreApplicationTest {
     private PlayController playController;
     @Autowired
     private ProductController productController;
+    @Autowired
+    private QuotationController quotationController;
 
     private static final String ROBOT_CLASS_NAME = "Скользящее среднее";
     private static final List<ParamDto> ROBOT_PARAMS = List.of(
@@ -107,6 +106,15 @@ public class CoreApplicationTest {
         assertEquals(PRODUCT_NAME, product.getName());
 
         checkProductEquals(product, productController.getProduct(product.getId()));
+    }
+
+    @Test
+    public void testQuotationApi() {
+
+        ProductDto product = createProduct(PRODUCT_NAME);
+        long productId = product.getId();
+
+
     }
 
     private void checkParamsEquals(List<ParamDto> expected, List<ParamDto> actual) {

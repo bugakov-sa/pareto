@@ -72,4 +72,34 @@ public class MappingUtil {
     public static List<ProductDto> mapProducts(List<Product> products) {
         return products.stream().map(MappingUtil::map).collect(Collectors.toList());
     }
+
+    public static QuotationDto map(Quotation quotation) {
+        QuotationDto res = new QuotationDto();
+        res.setProductId(quotation.getProductId());
+        res.setTime(quotation.getTime());
+        res.setOpen(quotation.getOpen());
+        res.setClose(quotation.getClose());
+        res.setMin(quotation.getMin());
+        res.setMax(quotation.getMax());
+        return res;
+    }
+
+    public static Quotation map(QuotationDto quotation) {
+        Quotation res = new Quotation();
+        res.setProductId(quotation.getProductId());
+        res.setTime(quotation.getTime());
+        res.setOpen(quotation.getOpen());
+        res.setClose(quotation.getClose());
+        res.setMin(quotation.getMin());
+        res.setMax(quotation.getMax());
+        return res;
+    }
+
+    public static List<QuotationDto> mapQuotations(List<Quotation> quotations) {
+        return quotations.stream().map(MappingUtil::map).collect(Collectors.toList());
+    }
+
+    public static List<Quotation> mapQuotationDtos(List<QuotationDto> quotations) {
+        return quotations.stream().map(MappingUtil::map).collect(Collectors.toList());
+    }
 }

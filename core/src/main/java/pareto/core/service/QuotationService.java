@@ -47,7 +47,7 @@ public class QuotationService {
         return getQuotationsList(productIds, fromTime, toTime).iterator();
     }
 
-    private List<List<Quotation>> getQuotationsList(
+    public List<List<Quotation>> getQuotationsList(
             List<Long> productIds, LocalDateTime fromTime, LocalDateTime toTime
     ) {
         List<List<Quotation>> res = new ArrayList<>();
