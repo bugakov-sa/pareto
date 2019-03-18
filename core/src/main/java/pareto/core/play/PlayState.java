@@ -9,14 +9,14 @@ public class PlayState {
 
     private final Play play;
     private volatile Portfolio portfolio;
-    private volatile Quotation quotation;
+    private volatile List<Quotation> quotations;
     private volatile LocalDateTime time;
     private volatile Candle pnlCandle;
 
-    public PlayState(Play play, Portfolio portfolio, Quotation quotation, LocalDateTime time) {
+    public PlayState(Play play, Portfolio portfolio, List<Quotation> quotations, LocalDateTime time) {
         this.play = play;
         this.portfolio = portfolio;
-        this.quotation = quotation;
+        this.quotations = quotations;
         this.time = time;
     }
 
@@ -24,8 +24,8 @@ public class PlayState {
         return portfolio;
     }
 
-    public Quotation getQuotation() {
-        return quotation;
+    public List<Quotation> getQuotation() {
+        return quotations;
     }
 
     public LocalDateTime getTime() {
@@ -36,7 +36,11 @@ public class PlayState {
         return new PlayReport(play, pnlCandle);
     }
 
-    public PlayState apply(List<Event> events) {
+    public PlayState applyEvents(List<Event> events) {
+        return this;
+    }
+
+    public PlayState applyQuotations(List<Quotation> quotations) {
         return this;
     }
 }

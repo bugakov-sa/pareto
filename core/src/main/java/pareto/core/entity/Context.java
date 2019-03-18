@@ -50,7 +50,7 @@ public class Context {
         return null;
     }
 
-    public List<String> getProducts() {
+    public List<Long> getProducts() {
         return null;
     }
 }
