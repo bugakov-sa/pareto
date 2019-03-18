@@ -28,7 +28,7 @@ public class QuotationService {
             Quotation quotation = quotations.get(i);
             insertQuotationParams[i] = Map.of(
                     "product_id", quotation.getProductId(),
-                    "time", quotation.getTime(),
+                    "time", quotation.getTime().toEpochSecond(ZoneOffset.UTC),
                     "open", quotation.getOpen(),
                     "close", quotation.getClose(),
                     "min", quotation.getMin(),
@@ -36,7 +36,7 @@ public class QuotationService {
             );
         }
         namedParameterJdbcTemplate.batchUpdate(
-                "insert into quotation(product_id, time, open, close, min, max) values(:product_id, :time, :open, :close, :min, :max)",
+                "insert into product_quotation(product_id, time, open, close, min, max) values(:product_id, :time, :open, :close, :min, :max)",
                 insertQuotationParams
         );
     }
@@ -51,9 +51,15 @@ public class QuotationService {
             List<Long> productIds, LocalDateTime fromTime, LocalDateTime toTime
     ) {
         List<List<Quotation>> res = new ArrayList<>();
+        long fromTimeSeconds = fromTime.toEpochSecond(ZoneOffset.UTC);
+        long toTimeSeconds = toTime.toEpochSecond(ZoneOffset.UTC);
         namedParameterJdbcTemplate.query(
                 "select * from product_quotation where time >= :from_time and time < :to_time and product_id in (:product_id) order by time, product_id",
-                Map.of("product_id", productIds, "from_time", fromTime, "to_time", toTime),
+                Map.of(
+                        "product_id", productIds,
+                        "from_time", fromTimeSeconds,
+                        "to_time", toTimeSeconds
+                ),
                 rs -> {
                     LocalDateTime time = LocalDateTime.ofEpochSecond(
                             rs.getLong("time"), 0, ZoneOffset.UTC

@@ -32,7 +32,7 @@ CREATE TABLE play (
 
 CREATE TABLE play_pnl (
     play_id BIGINT,
-    time TIMESTAMP,
+    time BIGINT,
     open INTEGER NOT NULL,
     close INTEGER NOT NULL,
     min INTEGER NOT NULL,
@@ -54,12 +54,6 @@ CREATE TABLE event_param (
     PRIMARY KEY (event_id, name)
 );
 
-CREATE TABLE play_status (
-    play_id BIGINT REFERENCES play(id),
-    time TIMESTAMP NOT NULL,
-    status SMALLINT
-);
-
 CREATE TABLE product (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL
@@ -67,5 +61,10 @@ CREATE TABLE product (
 
 CREATE TABLE product_quotation (
     product_id BIGINT REFERENCES product(id),
-    name TEXT NOT NULL
+    time BIGINT NOT NULL,
+    open INTEGER NOT NULL,
+    close INTEGER NOT NULL,
+    min INTEGER NOT NULL,
+    max INTEGER NOT NULL,
+    PRIMARY KEY (product_id, time)
 );

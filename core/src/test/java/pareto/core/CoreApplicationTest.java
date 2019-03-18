@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import pareto.core.api.*;
 import pareto.core.api.dto.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -114,7 +115,55 @@ public class CoreApplicationTest {
         ProductDto product = createProduct(PRODUCT_NAME);
         long productId = product.getId();
 
+        List<QuotationDto> quotationDtos = getQuotationSample(productId);
+        quotationController.save(quotationDtos);
 
+        checkQuotationsEquals(quotationDtos, quotationController.getQuotations(productId));
+    }
+
+    private List<QuotationDto> getQuotationSample(long productId) {
+        return List.of(
+                new QuotationDto() {
+                    {
+                        setProductId(productId);
+                        setTime(LocalDateTime.of(2019, 2, 1, 10, 0, 0));
+                        setOpen(1234);
+                        setClose(1259);
+                        setMin(1230);
+                        setMax(1273);
+                    }
+                },
+                new QuotationDto() {
+                    {
+                        setProductId(productId);
+                        setTime(LocalDateTime.of(2019, 2, 1, 10, 1, 0));
+                        setOpen(1259);
+                        setClose(1284);
+                        setMin(1242);
+                        setMax(1284);
+                    }
+                },
+                new QuotationDto() {
+                    {
+                        setProductId(productId);
+                        setTime(LocalDateTime.of(2019, 2, 1, 10, 2, 0));
+                        setOpen(1284);
+                        setClose(1301);
+                        setMin(1284);
+                        setMax(1312);
+                    }
+                },
+                new QuotationDto() {
+                    {
+                        setProductId(productId);
+                        setTime(LocalDateTime.of(2019, 2, 1, 10, 3, 0));
+                        setOpen(1301);
+                        setClose(1311);
+                        setMin(1299);
+                        setMax(1312);
+                    }
+                }
+        );
     }
 
     private void checkParamsEquals(List<ParamDto> expected, List<ParamDto> actual) {
@@ -160,6 +209,21 @@ public class CoreApplicationTest {
         assertNotNull(expected);
         assertEquals(expected.getId(), actual.getId());
         assertEquals(expected.getName(), actual.getName());
+    }
+
+    private void checkQuotationsEquals(List<QuotationDto> expected, List<QuotationDto> actual) {
+        assertNotNull(expected);
+        assertEquals(expected.size(), actual.size());
+        for (int i = 0; i < expected.size(); i++) {
+            QuotationDto expectedQuotation = expected.get(i);
+            QuotationDto actualQuotation = actual.get(i);
+            assertEquals(expectedQuotation.getProductId(), actualQuotation.getProductId());
+            assertEquals(expectedQuotation.getTime(), actualQuotation.getTime());
+            assertEquals(expectedQuotation.getOpen(), actualQuotation.getOpen());
+            assertEquals(expectedQuotation.getClose(), actualQuotation.getClose());
+            assertEquals(expectedQuotation.getMin(), actualQuotation.getMin());
+            assertEquals(expectedQuotation.getMax(), actualQuotation.getMax());
+        }
     }
 
     private RobotDto createRobot(String className, List<ParamDto> params) {
