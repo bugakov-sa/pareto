@@ -22,6 +22,25 @@ public class QuotationService {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
+    public void save(List<Quotation> quotations) {
+        Map<String, ?>[] insertQuotationParams = new Map[quotations.size()];
+        for(int i =0;i<quotations.size();i++){
+            Quotation quotation = quotations.get(i);
+            insertQuotationParams[i] = Map.of(
+                    "product_id", quotation.getProductId(),
+                    "time", quotation.getTime(),
+                    "open", quotation.getOpen(),
+                    "close", quotation.getClose(),
+                    "min", quotation.getMin(),
+                    "max", quotation.getMax()
+            );
+        }
+        namedParameterJdbcTemplate.batchUpdate(
+                "insert into quotation(product_id, time, open, close, min, max) values(:product_id, :time, :open, :close, :min, :max)",
+                insertQuotationParams
+        );
+    }
+
     public Iterator<List<Quotation>> getQuotationsIterator(
             List<Long> productIds, LocalDateTime fromTime, LocalDateTime toTime
     ) {

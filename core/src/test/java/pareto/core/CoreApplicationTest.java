@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import pareto.core.api.ContextController;
 import pareto.core.api.PlayController;
+import pareto.core.api.ProductController;
 import pareto.core.api.RobotController;
 import pareto.core.api.dto.*;
 
@@ -28,6 +29,8 @@ public class CoreApplicationTest {
     private ContextController contextController;
     @Autowired
     private PlayController playController;
+    @Autowired
+    private ProductController productController;
 
     private static final String ROBOT_CLASS_NAME = "Скользящее среднее";
     private static final List<ParamDto> ROBOT_PARAMS = List.of(
@@ -56,7 +59,7 @@ public class CoreApplicationTest {
                 setValue("01.03.19");
             }}
     );
-
+    private static final String PRODUCT_NAME = "br-12.19";
 
     @Test
     public void testRobotApi() {
@@ -94,6 +97,16 @@ public class CoreApplicationTest {
         assertEquals(0, play.getStatus());
 
         checkPlayEquals(play, playController.getPlay(play.getId()));
+    }
+
+    @Test
+    public void testProductApi() {
+
+        ProductDto product = createProduct(PRODUCT_NAME);
+        assertNotNull(product);
+        assertEquals(PRODUCT_NAME, product.getName());
+
+        checkProductEquals(product, productController.getProduct(product.getId()));
     }
 
     private void checkParamsEquals(List<ParamDto> expected, List<ParamDto> actual) {
@@ -135,6 +148,12 @@ public class CoreApplicationTest {
         assertEquals(expected.getStatus(), actual.getStatus());
     }
 
+    private void checkProductEquals(ProductDto expected, ProductDto actual) {
+        assertNotNull(expected);
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getName(), actual.getName());
+    }
+
     private RobotDto createRobot(String className, List<ParamDto> params) {
         NewRobotDto newRobotDto = new NewRobotDto();
         newRobotDto.setClassName(className);
@@ -155,5 +174,11 @@ public class CoreApplicationTest {
         newPlayDto.setRobotId(robotId);
         newPlayDto.setContextId(contextId);
         return playController.createPlay(newPlayDto);
+    }
+
+    private ProductDto createProduct(String name) {
+        NewProductDto newProductDto = new NewProductDto();
+        newProductDto.setName(name);
+        return productController.createProduct(newProductDto);
     }
 }

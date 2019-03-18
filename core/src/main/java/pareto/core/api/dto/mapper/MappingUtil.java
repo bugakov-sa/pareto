@@ -1,13 +1,7 @@
 package pareto.core.api.dto.mapper;
 
-import pareto.core.api.dto.ContextDto;
-import pareto.core.api.dto.ParamDto;
-import pareto.core.api.dto.PlayDto;
-import pareto.core.api.dto.RobotDto;
-import pareto.core.entity.Context;
-import pareto.core.entity.Param;
-import pareto.core.entity.Play;
-import pareto.core.entity.Robot;
+import pareto.core.api.dto.*;
+import pareto.core.entity.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,5 +60,16 @@ public class MappingUtil {
 
     public static List<PlayDto> mapPlays(List<Play> plays) {
         return plays.stream().map(MappingUtil::map).collect(Collectors.toList());
+    }
+
+    public static ProductDto map(Product product) {
+        ProductDto res = new ProductDto();
+        res.setId(product.getId());
+        res.setName(product.getName());
+        return res;
+    }
+
+    public static List<ProductDto> mapProducts(List<Product> products) {
+        return products.stream().map(MappingUtil::map).collect(Collectors.toList());
     }
 }
