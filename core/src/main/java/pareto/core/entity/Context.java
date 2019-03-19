@@ -2,12 +2,14 @@ package pareto.core.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Context {
 
     private static final String PARAM_NAME_PRODUCTS = "products";
     private static final String PARAM_NAME_FROM_TIME = "from";
-    private static final String PARAM_NAME_FROM_TO = "to";
+    private static final String PARAM_NAME_TO_TIME = "to";
     private static final String PARAM_NAME_START_SUM = "start_sum";
 
     private Long id;
@@ -56,15 +58,15 @@ public class Context {
     }
 
     public LocalDateTime getFromTime() {
-        return null;
+        return LocalDateTime.parse(getParamValue(PARAM_NAME_FROM_TIME));
     }
 
     public LocalDateTime getToTime() {
-        return null;
+        return LocalDateTime.parse(getParamValue(PARAM_NAME_TO_TIME));
     }
 
     public List<Long> getProducts() {
-        return null;
+        return Stream.of(getParamValue(PARAM_NAME_PRODUCTS).split(",")).map(Long::valueOf).collect(Collectors.toList());
     }
 
     public int getStartSum() {

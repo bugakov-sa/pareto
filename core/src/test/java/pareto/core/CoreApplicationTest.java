@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -31,8 +32,10 @@ public class CoreApplicationTest {
     private ProductController productController;
     @Autowired
     private QuotationController quotationController;
+    @Autowired
+    private PlayPnlController playPnlController;
 
-    private static final String ROBOT_CLASS_NAME = "Скользящее среднее";
+    private static final String ROBOT_CLASS_NAME = "pareto.core.TestPlayer";
     private static final List<ParamDto> ROBOT_PARAMS = List.of(
             new ParamDto() {{
                 setName("product");
@@ -47,16 +50,20 @@ public class CoreApplicationTest {
     private static final String CONTEXT_DESCRIPTION = "Февраль br-12.19";
     private static final List<ParamDto> CONTEXT_PARAMS = List.of(
             new ParamDto() {{
-                setName("product");
-                setValue("br-12.19");
+                setName("products");
+                setValue("12345");
             }},
             new ParamDto() {{
                 setName("from");
-                setValue("01.02.19");
+                setValue("2019-02-01T00:00:00");
             }},
             new ParamDto() {{
                 setName("to");
-                setValue("01.03.19");
+                setValue("2019-03-01T00:00:00");
+            }},
+            new ParamDto() {{
+                setName("start_sum");
+                setValue("100000");
             }}
     );
     private static final String PRODUCT_NAME = "br-12.19";
@@ -121,12 +128,33 @@ public class CoreApplicationTest {
         checkQuotationsEquals(quotationDtos, quotationController.getQuotations(productId));
     }
 
+    @Test
+    public void testPlayPnlApi() throws InterruptedException {
+
+        ProductDto product = createProduct(PRODUCT_NAME);
+        long productId = product.getId();
+
+        List<QuotationDto> quotationDtos = getQuotationSample(productId);
+        quotationController.save(quotationDtos);
+
+        RobotDto robot = createRobot(ROBOT_CLASS_NAME, ROBOT_PARAMS);
+        ContextDto context = createContext(CONTEXT_NAME, CONTEXT_DESCRIPTION, CONTEXT_PARAMS);
+
+        PlayDto play = createPlay(robot.getId(), context.getId());
+
+        while(playController.getPlay(play.getId()).getStatus() == 0) {
+            TimeUnit.SECONDS.sleep(1);
+        }
+        List<PlayPnlDto> playPnls = playPnlController.getPlayPnl(play.getId());
+        checkPlayPnlsEquals(getExpectedPlayPnls(), playPnls);
+    }
+
     private List<QuotationDto> getQuotationSample(long productId) {
         return List.of(
                 new QuotationDto() {
                     {
                         setProductId(productId);
-                        setTime(LocalDateTime.of(2019, 2, 1, 10, 0, 0));
+                        setTime(LocalDateTime.parse("2019-02-10T15:00:00"));
                         setOpen(1234);
                         setClose(1259);
                         setMin(1230);
@@ -136,7 +164,7 @@ public class CoreApplicationTest {
                 new QuotationDto() {
                     {
                         setProductId(productId);
-                        setTime(LocalDateTime.of(2019, 2, 1, 10, 1, 0));
+                        setTime(LocalDateTime.parse("2019-02-10T15:01:00"));
                         setOpen(1259);
                         setClose(1284);
                         setMin(1242);
@@ -146,7 +174,7 @@ public class CoreApplicationTest {
                 new QuotationDto() {
                     {
                         setProductId(productId);
-                        setTime(LocalDateTime.of(2019, 2, 1, 10, 2, 0));
+                        setTime(LocalDateTime.parse("2019-02-10T15:02:00"));
                         setOpen(1284);
                         setClose(1301);
                         setMin(1284);
@@ -156,7 +184,7 @@ public class CoreApplicationTest {
                 new QuotationDto() {
                     {
                         setProductId(productId);
-                        setTime(LocalDateTime.of(2019, 2, 1, 10, 3, 0));
+                        setTime(LocalDateTime.parse("2019-02-10T15:03:00"));
                         setOpen(1301);
                         setClose(1311);
                         setMin(1299);
@@ -164,6 +192,11 @@ public class CoreApplicationTest {
                     }
                 }
         );
+    }
+
+    private List<PlayPnlDto> getExpectedPlayPnls() {
+        //TODO
+        return new ArrayList<>();
     }
 
     private void checkParamsEquals(List<ParamDto> expected, List<ParamDto> actual) {
@@ -224,6 +257,11 @@ public class CoreApplicationTest {
             assertEquals(expectedQuotation.getMin(), actualQuotation.getMin());
             assertEquals(expectedQuotation.getMax(), actualQuotation.getMax());
         }
+    }
+
+    private void checkPlayPnlsEquals(List<PlayPnlDto> expected, List<PlayPnlDto> actual) {
+        int n = 0;
+        //TODO
     }
 
     private RobotDto createRobot(String className, List<ParamDto> params) {

@@ -102,4 +102,18 @@ public class MappingUtil {
     public static List<Quotation> mapQuotationDtos(List<QuotationDto> quotations) {
         return quotations.stream().map(MappingUtil::map).collect(Collectors.toList());
     }
+
+    public static PlayPnlDto map(PlayPnl playPnl) {
+        PlayPnlDto res = new PlayPnlDto();
+        res.setTime(playPnl.getTime());
+        res.setOpen(playPnl.getOpen());
+        res.setClose(playPnl.getClose());
+        res.setMin(playPnl.getMin());
+        res.setMax(playPnl.getMax());
+        return res;
+    }
+
+    public static List<PlayPnlDto> mapPlayPnls(List<PlayPnl> playPnls) {
+        return playPnls.stream().map(MappingUtil::map).collect(Collectors.toList());
+    }
 }

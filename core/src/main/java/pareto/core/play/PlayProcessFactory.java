@@ -39,7 +39,7 @@ public class PlayProcessFactory {
         this.playPnlService = playPnlService;
     }
 
-    public PlayProcess createPlayProcess(Play play) {
+    public PlayProcess createPlayProcess(Play play) throws Exception {
         Robot robot = robotService.getRobot(play.getRobotId()).get();
         Player player = playerFactory.createPlayer(robot);
         Context context = contextService.getContext(play.getContextId()).get();
