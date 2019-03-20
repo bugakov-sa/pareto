@@ -19,7 +19,7 @@ public class PlayProcessStarter {
         this.playProcessFactory = playProcessFactory;
     }
 
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelayString = "${process.starter.delay:5000}")
     public void startNewPlays() {
         playService.getNewPlays().forEach(play -> {
             Long playId = play.getId();

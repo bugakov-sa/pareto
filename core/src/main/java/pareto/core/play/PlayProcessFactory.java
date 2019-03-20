@@ -43,7 +43,7 @@ public class PlayProcessFactory {
         Robot robot = robotService.getRobot(play.getRobotId()).get();
         Player player = playerFactory.createPlayer(robot);
         Context context = contextService.getContext(play.getContextId()).get();
-        PlayState startPlayState = playStateFactory.createPlayState(context);
+        PlayState startPlayState = playStateFactory.createPlayState(play.getId(), context);
         Iterator<List<Quotation>> quotationIterator = quotationService.getQuotationsIterator(
                 context.getProducts(),
                 context.getFromTime(),

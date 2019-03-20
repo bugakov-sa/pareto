@@ -1,4 +1,4 @@
-package pareto.core;
+package pareto.core.player;
 
 import pareto.core.entity.Order;
 import pareto.core.entity.Param;
@@ -8,11 +8,11 @@ import pareto.core.play.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestPlayer implements Player {
+public class DoNothingPlayer implements Player {
 
     private final List<Param> params;
 
-    public TestPlayer(List<Param> params) {
+    public DoNothingPlayer(List<Param> params) {
         this.params = params;
     }
 

@@ -34,7 +34,7 @@ public class PlayPnlService {
 
     public List<PlayPnl> getPlayPnl(long playId) {
         return namedParameterJdbcTemplate.query(
-                "select * from play_pnl where play_id = :play_id",
+                "select * from play_pnl where play_id = :play_id order by time",
                 Map.of("play_id", playId),
                 (rs, rowNum) -> {
                     PlayPnl res = new PlayPnl();

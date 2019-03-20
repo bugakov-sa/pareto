@@ -1,18 +1,18 @@
 package pareto.core;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import pareto.core.api.*;
 import pareto.core.api.dto.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
@@ -22,6 +22,8 @@ import static org.junit.Assert.assertNotNull;
 @SpringBootTest
 public class CoreApplicationTest {
 
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     @Autowired
     private RobotController robotController;
     @Autowired
@@ -35,7 +37,7 @@ public class CoreApplicationTest {
     @Autowired
     private PlayPnlController playPnlController;
 
-    private static final String ROBOT_CLASS_NAME = "pareto.core.TestPlayer";
+    private static final String ROBOT_CLASS_NAME = "pareto.core.player.DoNothingPlayer";
     private static final List<ParamDto> ROBOT_PARAMS = List.of(
             new ParamDto() {{
                 setName("product");
@@ -138,15 +140,36 @@ public class CoreApplicationTest {
         quotationController.save(quotationDtos);
 
         RobotDto robot = createRobot(ROBOT_CLASS_NAME, ROBOT_PARAMS);
-        ContextDto context = createContext(CONTEXT_NAME, CONTEXT_DESCRIPTION, CONTEXT_PARAMS);
+        ContextDto context = createContext(CONTEXT_NAME, CONTEXT_DESCRIPTION, getContextParams(productId));
 
         PlayDto play = createPlay(robot.getId(), context.getId());
 
         while(playController.getPlay(play.getId()).getStatus() == 0) {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.MILLISECONDS.sleep(100);
         }
         List<PlayPnlDto> playPnls = playPnlController.getPlayPnl(play.getId());
         checkPlayPnlsEquals(getExpectedPlayPnls(), playPnls);
+    }
+
+    private List<ParamDto> getContextParams(long productId) {
+        return List.of(
+                new ParamDto() {{
+                    setName("products");
+                    setValue(String.valueOf(productId));
+                }},
+                new ParamDto() {{
+                    setName("from");
+                    setValue("2019-02-01T00:00:00");
+                }},
+                new ParamDto() {{
+                    setName("to");
+                    setValue("2019-03-01T00:00:00");
+                }},
+                new ParamDto() {{
+                    setName("start_sum");
+                    setValue("100000");
+                }}
+        );
     }
 
     private List<QuotationDto> getQuotationSample(long productId) {
@@ -195,8 +218,44 @@ public class CoreApplicationTest {
     }
 
     private List<PlayPnlDto> getExpectedPlayPnls() {
-        //TODO
-        return new ArrayList<>();
+        return List.of(
+                new PlayPnlDto() {
+                    {
+                        setTime(LocalDateTime.parse("2019-02-10T15:00:00"));
+                        setOpen(100000);
+                        setClose(100000);
+                        setMin(100000);
+                        setMax(100000);
+                    }
+                },
+                new PlayPnlDto() {
+                    {
+                        setTime(LocalDateTime.parse("2019-02-10T15:01:00"));
+                        setOpen(100000);
+                        setClose(100000);
+                        setMin(100000);
+                        setMax(100000);
+                    }
+                },
+                new PlayPnlDto() {
+                    {
+                        setTime(LocalDateTime.parse("2019-02-10T15:02:00"));
+                        setOpen(100000);
+                        setClose(100000);
+                        setMin(100000);
+                        setMax(100000);
+                    }
+                },
+                new PlayPnlDto() {
+                    {
+                        setTime(LocalDateTime.parse("2019-02-10T15:03:00"));
+                        setOpen(100000);
+                        setClose(100000);
+                        setMin(100000);
+                        setMax(100000);
+                    }
+                }
+        );
     }
 
     private void checkParamsEquals(List<ParamDto> expected, List<ParamDto> actual) {
@@ -260,8 +319,14 @@ public class CoreApplicationTest {
     }
 
     private void checkPlayPnlsEquals(List<PlayPnlDto> expected, List<PlayPnlDto> actual) {
-        int n = 0;
-        //TODO
+        assertEquals(expected.size(), actual.size());
+        for(int i =0;i<expected.size();i++) {
+            assertEquals(expected.get(i).getTime(), actual.get(i).getTime());
+            assertEquals(expected.get(i).getOpen(), actual.get(i).getOpen());
+            assertEquals(expected.get(i).getClose(), actual.get(i).getClose());
+            assertEquals(expected.get(i).getMin(), actual.get(i).getMin());
+            assertEquals(expected.get(i).getMax(), actual.get(i).getMax());
+        }
     }
 
     private RobotDto createRobot(String className, List<ParamDto> params) {
@@ -290,5 +355,18 @@ public class CoreApplicationTest {
         NewProductDto newProductDto = new NewProductDto();
         newProductDto.setName(name);
         return productController.createProduct(newProductDto);
+    }
+
+    @Before
+    @After
+    public void clearTables() {
+        namedParameterJdbcTemplate.update("delete from product_quotation", Map.of());
+        namedParameterJdbcTemplate.update("delete from product", Map.of());
+        namedParameterJdbcTemplate.update("delete from play_pnl", Map.of());
+        namedParameterJdbcTemplate.update("delete from play", Map.of());
+        namedParameterJdbcTemplate.update("delete from context_param", Map.of());
+        namedParameterJdbcTemplate.update("delete from context", Map.of());
+        namedParameterJdbcTemplate.update("delete from robot_param", Map.of());
+        namedParameterJdbcTemplate.update("delete from robot", Map.of());
     }
 }

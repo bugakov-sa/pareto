@@ -9,12 +9,14 @@ import java.util.stream.Collectors;
 
 public class PlayState {
 
+    private final long playId;
     private int sum;
-    private List<Order> orders = new ArrayList<>();
-    private List<Position> positions = new ArrayList<>();
+    private final List<Order> orders = new ArrayList<>();
+    private final List<Position> positions = new ArrayList<>();
     private List<Quotation> quotations;
 
-    public PlayState(int startSum) {
+    public PlayState(long playId, int startSum) {
+        this.playId = playId;
         sum = startSum;
     }
 
@@ -110,6 +112,7 @@ public class PlayState {
             }
         }
         PlayPnl res = new PlayPnl();
+        res.setPlayId(playId);
         res.setTime(quotations.get(0).getTime());
         res.setOpen(open);
         res.setClose(close);
