@@ -5,7 +5,7 @@ public class Play {
     private Long id;
     private Long robotId;
     private Long contextId;
-    private int status;
+    private PlayStatus status;
 
     public Long getId() {
         return id;
@@ -31,11 +31,11 @@ public class Play {
         this.contextId = contextId;
     }
 
-    public int getStatus() {
+    public PlayStatus getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(PlayStatus status) {
         this.status = status;
     }
 }

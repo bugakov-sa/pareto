@@ -20,6 +20,7 @@ public class PlayProcessFactory {
     private final ContextService contextService;
     private final EventService eventService;
     private final PlayPnlService playPnlService;
+    private final PlayService playService;
 
     public PlayProcessFactory(
             PlayerFactory playerFactory,
@@ -28,7 +29,8 @@ public class PlayProcessFactory {
             RobotService robotService,
             ContextService contextService,
             EventService eventService,
-            PlayPnlService playPnlService
+            PlayPnlService playPnlService,
+            PlayService playService
     ) {
         this.playerFactory = playerFactory;
         this.playStateFactory = playStateFactory;
@@ -37,6 +39,7 @@ public class PlayProcessFactory {
         this.contextService = contextService;
         this.eventService = eventService;
         this.playPnlService = playPnlService;
+        this.playService = playService;
     }
 
     public PlayProcess createPlayProcess(Play play) throws Exception {
@@ -49,6 +52,6 @@ public class PlayProcessFactory {
                 context.getFromTime(),
                 context.getToTime()
         );
-        return new PlayProcess(player, startPlayState, quotationIterator, eventService, playPnlService);
+        return new PlayProcess(player, startPlayState, quotationIterator, eventService, playPnlService, playService);
     }
 }

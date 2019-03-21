@@ -1,31 +1,35 @@
 package pareto.core.entity;
 
+import java.time.LocalDateTime;
+
 public class Order {
 
     private final long productId;
     private final PositionType positionType;
     private final int positionSize;
+    private final LocalDateTime time;
 
-    private Order(long productId, PositionType positionType, int positionSize) {
+    private Order(long productId, PositionType positionType, int positionSize, LocalDateTime time) {
         this.productId = productId;
         this.positionType = positionType;
         this.positionSize = positionSize;
+        this.time = time;
     }
 
-    public static Order createLong(long productId, int positionSize) {
-        return new Order(productId, PositionType.LONG, positionSize);
+    public static Order createLong(long productId, int positionSize, LocalDateTime time) {
+        return new Order(productId, PositionType.LONG, positionSize, time);
     }
 
-    public static Order createLong(long productId) {
-        return new Order(productId, PositionType.LONG, 1);
+    public static Order createLong(long productId, LocalDateTime time) {
+        return new Order(productId, PositionType.LONG, 1, time);
     }
 
-    public static Order createShort(long productId, int positionSize) {
-        return new Order(productId, PositionType.SHORT, positionSize);
+    public static Order createShort(long productId, int positionSize, LocalDateTime time) {
+        return new Order(productId, PositionType.SHORT, positionSize, time);
     }
 
-    public static Order createShort(long productId) {
-        return new Order(productId, PositionType.SHORT, 1);
+    public static Order createShort(long productId, LocalDateTime time) {
+        return new Order(productId, PositionType.SHORT, 1, time);
     }
 
     public long getProductId() {
@@ -38,5 +42,9 @@ public class Order {
 
     public int getPositionSize() {
         return positionSize;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
     }
 }

@@ -116,4 +116,18 @@ public class MappingUtil {
     public static List<PlayPnlDto> mapPlayPnls(List<PlayPnl> playPnls) {
         return playPnls.stream().map(MappingUtil::map).collect(Collectors.toList());
     }
+
+    public static EventDto map(Event event) {
+        EventDto res = new EventDto();
+        res.setId(event.getId());
+        res.setPlayId(event.getPlayId());
+        res.setTime(event.getTime());
+        res.setEventType(event.getEventType());
+        res.setParams(event.getParams().stream().map(MappingUtil::map).collect(Collectors.toList()));
+        return res;
+    }
+
+    public static List<EventDto> mapEvents(List<Event> events) {
+        return events.stream().map(MappingUtil::map).collect(Collectors.toList());
+    }
 }

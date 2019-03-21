@@ -1,15 +1,17 @@
-package pareto.core.entity;
+package pareto.core.api.dto;
+
+import pareto.core.entity.EventType;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Event {
+public class EventDto {
 
     private long id;
     private long playId;
     private LocalDateTime time;
     private EventType eventType;
-    private List<Param> params;
+    private List<ParamDto> params;
 
     public long getId() {
         return id;
@@ -43,11 +45,11 @@ public class Event {
         this.eventType = eventType;
     }
 
-    public List<Param> getParams() {
+    public List<ParamDto> getParams() {
         return params;
     }
 
-    public void setParams(List<Param> params) {
+    public void setParams(List<ParamDto> params) {
         this.params = params;
     }
 }

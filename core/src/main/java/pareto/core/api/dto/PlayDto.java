@@ -1,11 +1,13 @@
 package pareto.core.api.dto;
 
+import pareto.core.entity.PlayStatus;
+
 public class PlayDto {
 
     private long id;
     private long robotId;
     private long contextId;
-    private int status;
+    private PlayStatus status;
 
     public long getId() {
         return id;
@@ -31,11 +33,11 @@ public class PlayDto {
         this.contextId = contextId;
     }
 
-    public int getStatus() {
+    public PlayStatus getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(PlayStatus status) {
         this.status = status;
     }
 }

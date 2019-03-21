@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import pareto.core.api.*;
 import pareto.core.api.dto.*;
+import pareto.core.entity.PlayStatus;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -103,7 +104,7 @@ public class CoreApplicationTest {
         assertNotNull(play);
         assertEquals(robot.getId(), play.getRobotId());
         assertEquals(context.getId(), play.getContextId());
-        assertEquals(0, play.getStatus());
+        assertNotNull(play.getStatus());
 
         checkPlayEquals(play, playController.getPlay(play.getId()));
     }
@@ -144,7 +145,7 @@ public class CoreApplicationTest {
 
         PlayDto play = createPlay(robot.getId(), context.getId());
 
-        while (playController.getPlay(play.getId()).getStatus() == 0) {
+        while (playController.getPlay(play.getId()).getStatus() != PlayStatus.FINISHED) {
             TimeUnit.MILLISECONDS.sleep(100);
         }
         List<PlayPnlDto> playPnls = playPnlController.getPlayPnl(play.getId());
@@ -317,6 +318,8 @@ public class CoreApplicationTest {
         namedParameterJdbcTemplate.update("delete from product_quotation", Map.of());
         namedParameterJdbcTemplate.update("delete from product", Map.of());
         namedParameterJdbcTemplate.update("delete from play_pnl", Map.of());
+        namedParameterJdbcTemplate.update("delete from event_param", Map.of());
+        namedParameterJdbcTemplate.update("delete from play_event", Map.of());
         namedParameterJdbcTemplate.update("delete from play", Map.of());
         namedParameterJdbcTemplate.update("delete from context_param", Map.of());
         namedParameterJdbcTemplate.update("delete from context", Map.of());

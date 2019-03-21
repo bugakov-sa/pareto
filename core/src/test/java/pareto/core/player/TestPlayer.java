@@ -25,10 +25,10 @@ public class TestPlayer implements Player {
         List<Order> orders = state.getOrders();
         List<Position> positions = state.getPositions();
         if(quotation.getClose() < 1000 && orders.isEmpty() && positions.isEmpty()) {
-            res.add(Order.createLong(quotation.getProductId(), 1));
+            res.add(Order.createLong(quotation.getProductId(), quotation.getTime()));
         }
         if(quotation.getClose() > 1050 && !(orders.isEmpty() && positions.isEmpty())) {
-            res.add(Order.createShort(quotation.getProductId(), 1));
+            res.add(Order.createShort(quotation.getProductId(), quotation.getTime()));
         }
         return res;
     }

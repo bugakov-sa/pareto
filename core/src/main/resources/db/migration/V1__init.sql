@@ -43,7 +43,7 @@ CREATE TABLE play_pnl (
 CREATE TABLE play_event (
     id SERIAL PRIMARY KEY,
     play_id BIGINT REFERENCES play(id),
-    time TIMESTAMP NOT NULL,
+    time BIGINT NOT NULL,
     event_type SMALLINT
 );
 

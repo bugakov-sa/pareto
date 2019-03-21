@@ -2,9 +2,11 @@ package pareto.core.play;
 
 import pareto.core.entity.Event;
 import pareto.core.entity.Order;
+import pareto.core.entity.PlayStatus;
 import pareto.core.entity.Quotation;
 import pareto.core.service.EventService;
 import pareto.core.service.PlayPnlService;
+import pareto.core.service.PlayService;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,6 +18,7 @@ public class PlayProcess extends Thread {
     private final Iterator<List<Quotation>> quotationsIterator;
     private final EventService eventService;
     private final PlayPnlService playPnlService;
+    private final PlayService playService;
 
     private PlayState playState;
 
@@ -24,13 +27,15 @@ public class PlayProcess extends Thread {
             PlayState startPlayState,
             Iterator<List<Quotation>> quotationsIterator,
             EventService eventService,
-            PlayPnlService playPnlService
+            PlayPnlService playPnlService,
+            PlayService playService
     ) {
         this.player = player;
         this.quotationsIterator = quotationsIterator;
         this.playState = startPlayState;
         this.eventService = eventService;
         this.playPnlService = playPnlService;
+        this.playService = playService;
     }
 
     @Override
@@ -44,5 +49,6 @@ public class PlayProcess extends Thread {
             eventService.save(events);
             playPnlService.save(playState.getPlayPnl(quotations));
         }
+        playService.updatePlayStatus(playState.getPlayId(), PlayStatus.FINISHED);
     }
 }

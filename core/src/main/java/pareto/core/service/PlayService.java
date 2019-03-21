@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
 import pareto.core.entity.Play;
+import pareto.core.entity.PlayStatus;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -38,16 +39,16 @@ public class PlayService {
         Map<String, ?> playInsertParams = Map.of(
                 "robot_id", robotId,
                 "context_id", contextId,
-                "status", 0
+                "status", PlayStatus.CREATED.getCode()
         );
         long playId = playInsert.executeAndReturnKey(playInsertParams).longValue();
         return getPlay(playId).get();
     }
 
-    public void updatePlayStatus(long id, int status) {
+    public void updatePlayStatus(long id, PlayStatus status) {
         namedParameterJdbcTemplate.update(
                 "update play set status = :status where id = :id",
-                Map.of("status", status, "id", id)
+                Map.of("status", status.getCode(), "id", id)
         );
     }
 
@@ -70,7 +71,7 @@ public class PlayService {
             play.setId(rs.getLong("id"));
             play.setRobotId(rs.getLong("robot_id"));
             play.setContextId(rs.getLong("context_id"));
-            play.setStatus(rs.getInt("status"));
+            play.setStatus(PlayStatus.lookup(rs.getInt("status")));
             return play;
         };
     }

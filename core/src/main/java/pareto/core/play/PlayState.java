@@ -22,8 +22,21 @@ public class PlayState {
 
     public List<Event> applyOrders(List<Order> orders) {
         this.orders.addAll(orders);
-        //TODO convert orders to events
-        return new ArrayList<>();
+        ArrayList<Event> events = new ArrayList<>();
+        for(Order order : orders) {
+            events.add(createNewOrderEvent(order));
+        }
+        return events;
+    }
+
+    private Event createNewOrderEvent(Order order) {
+        Event event = new Event();
+        event.setPlayId(playId);
+        event.setEventType(EventType.NEW_ORDER);
+        event.setTime(order.getTime());
+        event.setParams(new ArrayList<>());
+        //TODO
+        return event;
     }
 
     public List<Event> applyQuotations(List<Quotation> quotations) {
@@ -58,9 +71,18 @@ public class PlayState {
         positions.removeAll(mergingPositions);
         positions.addAll(mergePositions(mergingPositions, position));
         ArrayList<Event> res = new ArrayList<>();
-        res.add(new Event());
-        //TODO convert order execution to events
+        res.add(createOrderExecutionEvent(order, position));
         return res;
+    }
+
+    private Event createOrderExecutionEvent(Order order, Position position) {
+        Event event = new Event();
+        event.setPlayId(playId);
+        event.setEventType(EventType.ORDER_EXECUTION);
+        event.setTime(order.getTime());
+        event.setParams(new ArrayList<>());
+        //TODO
+        return event;
     }
 
     private List<Position> mergePositions(List<Position> mergingPositions, Position newPosition) {
@@ -141,5 +163,9 @@ public class PlayState {
 
     public List<Quotation> getQuotations() {
         return List.copyOf(quotations);
+    }
+
+    public long getPlayId() {
+        return playId;
     }
 }
