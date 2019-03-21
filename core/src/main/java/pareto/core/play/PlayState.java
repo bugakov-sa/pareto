@@ -50,7 +50,7 @@ public class PlayState {
                 order.getProductId(),
                 order.getPositionType(),
                 order.getPositionSize(),
-                quotation.getClose()
+                quotation.getOpen()
         );
         List<Position> mergingPositions = positions.stream()
                 .filter(p -> p.getProductId() == order.getProductId())

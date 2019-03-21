@@ -189,26 +189,26 @@ public class CoreApplicationTest {
 
     private List<PlayPnlDto> getExpectedPlayPnls() {
         return List.of(
-                //positions 0 orders 0
+                //positions 0 orders 0 - positions 0 orders 1
                 new PlayPnlDto(parse("2019-02-10T15:00:00"), 100000, 100000, 100000, 100000),
-                //positions 0 orders 1
-                new PlayPnlDto(parse("2019-02-10T15:01:00"), 100000, 100000, 100000, 100000),
-                //positions 1 orders 0
-                new PlayPnlDto(parse("2019-02-10T15:02:00"), 100000, 100017, 100000, 100028),
-                //positions 1 orders 0
-                new PlayPnlDto(parse("2019-02-10T15:03:00"), 100017, 100067, 100016, 100108),
-                //positions 1 orders 1
-                new PlayPnlDto(parse("2019-02-10T15:04:00"), 100067, 100136, 100016, 100179),
-                //positions 0 orders 0
-                new PlayPnlDto(parse("2019-02-10T15:05:00"), 100136, 100136, 100136, 100136),
-                //positions 0 orders 0
-                new PlayPnlDto(parse("2019-02-10T15:06:00"), 100136, 100136, 100136, 100136),
-                //positions 0 orders 1
-                new PlayPnlDto(parse("2019-02-10T15:07:00"), 100136, 100136, 100136, 100136),
-                //positions 1 orders 0
-                new PlayPnlDto(parse("2019-02-10T15:08:00"), 100136, 100138, 100127, 100139),
-                //positions 1 orders 0
-                new PlayPnlDto(parse("2019-02-10T15:09:00"), 100138, 100188, 100137, 100229)
+                //positions 0 orders 1 - positions 1 orders 0
+                new PlayPnlDto(parse("2019-02-10T15:01:00"), 100000, 100025, 99983, 100025),
+                //positions 1 orders 0 - positions 1 orders 0
+                new PlayPnlDto(parse("2019-02-10T15:02:00"), 100025, 100042, 100025, 100053),
+                //positions 1 orders 0 - positions 1 orders 1
+                new PlayPnlDto(parse("2019-02-10T15:03:00"), 100042, 100092, 100041, 100133),
+                //positions 1 orders 1 - positions 0 orders 0
+                new PlayPnlDto(parse("2019-02-10T15:04:00"), 100092, 100092, 100092, 100092),
+                //positions 0 orders 0 - positions 0 orders 0
+                new PlayPnlDto(parse("2019-02-10T15:05:00"), 100092, 100092, 100092, 100092),
+                //positions 0 orders 0 - positions 0 orders 1
+                new PlayPnlDto(parse("2019-02-10T15:06:00"), 100092, 100092, 100092, 100092),
+                //positions 0 orders 1 - positions 1 orders 0
+                new PlayPnlDto(parse("2019-02-10T15:07:00"), 100092, 100189, 100090, 100200),
+                //positions 1 orders 0 - positions 1 orders 0
+                new PlayPnlDto(parse("2019-02-10T15:08:00"), 100189, 100191, 100180, 100192),
+                //positions 1 orders 0- positions 1 orders 1
+                new PlayPnlDto(parse("2019-02-10T15:09:00"), 100191, 100241, 100190, 100282)
         );
     }
 

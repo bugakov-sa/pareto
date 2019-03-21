@@ -37,12 +37,12 @@ public class PlayProcess extends Thread {
     public void run() {
         while (quotationsIterator.hasNext()) {
             List<Quotation> quotations = quotationsIterator.next();
-            playPnlService.save(playState.getPlayPnl(quotations));
             List<Event> events = new ArrayList<>();
             events.addAll(playState.applyQuotations(quotations));
             List<Order> orders = player.play(playState);
             events.addAll(playState.applyOrders(orders));
             eventService.save(events);
+            playPnlService.save(playState.getPlayPnl(quotations));
         }
     }
 }
