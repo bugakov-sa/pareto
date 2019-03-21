@@ -61,7 +61,7 @@ public class EventService {
             );
         }
         namedParameterJdbcTemplate.batchUpdate(
-                "insert into play_event(event_id, name, value) values(:event_id, :name, :value)",
+                "insert into event_param(event_id, name, value) values(:event_id, :name, :value)",
                 eventParamInsertParams
         );
     }
@@ -71,7 +71,7 @@ public class EventService {
         namedParameterJdbcTemplate.query(
                 "select play_event.id as event_id, play_event.time as time, play_event.event_type as event_type, " +
                         "play_event.play_id as play_id, event_param.name as param_name, event_param.value as value " +
-                        "from play_event join event_param on play_event.id = event_param.id where play_event.id = :play_id",
+                        "from play_event left join event_param on play_event.id = event_param.event_id where play_event.play_id = :play_id",
                 Map.of("play_id", playId),
                 new RowCallbackHandler() {
                     @Override
@@ -80,17 +80,20 @@ public class EventService {
                             res.add(buildEvent(rs));
                         }
                         Event lastEvent = res.get(res.size() - 1);
-                        long currEventId = rs.getLong("id");
+                        long currEventId = rs.getLong("event_id");
                         if (currEventId != lastEvent.getId()) {
                             res.add(buildEvent(rs));
                         }
                         Event currEvent = res.get(res.size() - 1);
-                        currEvent.getParams().add(buildParam(rs));
+                        Param param = buildParam(rs);
+                        if (param != null) {
+                            currEvent.getParams().add(param);
+                        }
                     }
 
                     Event buildEvent(ResultSet rs) throws SQLException {
                         Event event = new Event();
-                        event.setId(rs.getLong("id"));
+                        event.setId(rs.getLong("event_id"));
                         event.setPlayId(rs.getLong("play_id"));
                         event.setEventType(EventType.lookup(rs.getInt("event_type")));
                         event.setTime(LocalDateTime.ofEpochSecond(rs.getLong("time"), 0, ZoneOffset.UTC));
@@ -99,6 +102,9 @@ public class EventService {
                     }
 
                     Param buildParam(ResultSet rs) throws SQLException {
+                        if (rs.getString("param_name") == null) {
+                            return null;
+                        }
                         Param param = new Param();
                         param.setName(rs.getString("param_name"));
                         param.setValue(rs.getString("param_value"));

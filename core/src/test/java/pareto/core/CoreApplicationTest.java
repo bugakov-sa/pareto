@@ -37,6 +37,8 @@ public class CoreApplicationTest {
     private QuotationController quotationController;
     @Autowired
     private PlayPnlController playPnlController;
+    @Autowired
+    private EventController eventController;
 
     private static final String ROBOT_CLASS_NAME = "pareto.core.player.TestPlayer";
     private static final List<ParamDto> ROBOT_PARAMS = List.of(
@@ -132,7 +134,7 @@ public class CoreApplicationTest {
     }
 
     @Test
-    public void testPlayPnlApi() throws InterruptedException {
+    public void testPlayCore() throws InterruptedException {
 
         ProductDto product = createProduct(PRODUCT_NAME);
         long productId = product.getId();
@@ -150,6 +152,9 @@ public class CoreApplicationTest {
         }
         List<PlayPnlDto> playPnls = playPnlController.getPlayPnl(play.getId());
         checkPlayPnlsEquals(getExpectedPlayPnls(), playPnls);
+
+        List<EventDto> playEvents = eventController.getPlayEvents(play.getId());
+        checkEventsEquals(getExpectedPlayEvents(), playEvents);
     }
 
     private List<ParamDto> getContextParams(long productId) {
@@ -210,6 +215,12 @@ public class CoreApplicationTest {
                 new PlayPnlDto(parse("2019-02-10T15:08:00"), 100189, 100191, 100180, 100192),
                 //positions 1 orders 0- positions 1 orders 1
                 new PlayPnlDto(parse("2019-02-10T15:09:00"), 100191, 100241, 100190, 100282)
+        );
+    }
+
+    private List<EventDto> getExpectedPlayEvents() {
+        return List.of(
+
         );
     }
 
@@ -282,6 +293,10 @@ public class CoreApplicationTest {
             assertEquals("i = " + i, expected.get(i).getMin(), actual.get(i).getMin());
             assertEquals("i = " + i, expected.get(i).getMax(), actual.get(i).getMax());
         }
+    }
+
+    private void checkEventsEquals(List<EventDto> expected, List<EventDto> actual) {
+        assertEquals(expected.size(), actual.size());
     }
 
     private RobotDto createRobot(String className, List<ParamDto> params) {
