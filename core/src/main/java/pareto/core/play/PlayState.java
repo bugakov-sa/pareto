@@ -50,7 +50,7 @@ public class PlayState {
                 order.getProductId(),
                 order.getPositionType(),
                 order.getPositionSize(),
-                quotation.getOpen()
+                quotation.getClose()
         );
         List<Position> mergingPositions = positions.stream()
                 .filter(p -> p.getProductId() == order.getProductId())
@@ -58,6 +58,7 @@ public class PlayState {
         positions.removeAll(mergingPositions);
         positions.addAll(mergePositions(mergingPositions, position));
         ArrayList<Event> res = new ArrayList<>();
+        res.add(new Event());
         //TODO convert order execution to events
         return res;
     }
@@ -99,7 +100,7 @@ public class PlayState {
         return res;
     }
 
-    public PlayPnl getPlayPnl() {
+    public PlayPnl getPlayPnl(List<Quotation> quotations) {
         int open = sum, close = sum, min = sum, max = sum;
         for(Position position : positions) {
             for(Quotation quotation : quotations) {
@@ -124,5 +125,21 @@ public class PlayState {
     private int getPositionValue(Position position, Quotation quotation, Function<Quotation, Integer> function) {
         return (position.getType() == PositionType.LONG ? 1 : -1)
                 * position.getSize() * (function.apply(quotation) - position.getOpenPrice());
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
+    public List<Order> getOrders() {
+        return List.copyOf(orders);
+    }
+
+    public List<Position> getPositions() {
+        return List.copyOf(positions);
+    }
+
+    public List<Quotation> getQuotations() {
+        return List.copyOf(quotations);
     }
 }

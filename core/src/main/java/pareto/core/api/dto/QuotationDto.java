@@ -11,6 +11,18 @@ public class QuotationDto {
     private int min;
     private int max;
 
+    public QuotationDto() {
+    }
+
+    public QuotationDto(long productId, LocalDateTime time, int open, int close, int min, int max) {
+        this.productId = productId;
+        this.time = time;
+        this.open = open;
+        this.close = close;
+        this.min = min;
+        this.max = max;
+    }
+
     public long getProductId() {
         return productId;
     }

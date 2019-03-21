@@ -11,10 +11,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import pareto.core.api.*;
 import pareto.core.api.dto.*;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import static java.time.LocalDateTime.parse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -37,7 +37,7 @@ public class CoreApplicationTest {
     @Autowired
     private PlayPnlController playPnlController;
 
-    private static final String ROBOT_CLASS_NAME = "pareto.core.player.DoNothingPlayer";
+    private static final String ROBOT_CLASS_NAME = "pareto.core.player.TestPlayer";
     private static final List<ParamDto> ROBOT_PARAMS = List.of(
             new ParamDto() {{
                 setName("product");
@@ -144,7 +144,7 @@ public class CoreApplicationTest {
 
         PlayDto play = createPlay(robot.getId(), context.getId());
 
-        while(playController.getPlay(play.getId()).getStatus() == 0) {
+        while (playController.getPlay(play.getId()).getStatus() == 0) {
             TimeUnit.MILLISECONDS.sleep(100);
         }
         List<PlayPnlDto> playPnls = playPnlController.getPlayPnl(play.getId());
@@ -174,87 +174,31 @@ public class CoreApplicationTest {
 
     private List<QuotationDto> getQuotationSample(long productId) {
         return List.of(
-                new QuotationDto() {
-                    {
-                        setProductId(productId);
-                        setTime(LocalDateTime.parse("2019-02-10T15:00:00"));
-                        setOpen(1234);
-                        setClose(1259);
-                        setMin(1230);
-                        setMax(1273);
-                    }
-                },
-                new QuotationDto() {
-                    {
-                        setProductId(productId);
-                        setTime(LocalDateTime.parse("2019-02-10T15:01:00"));
-                        setOpen(1259);
-                        setClose(1284);
-                        setMin(1242);
-                        setMax(1284);
-                    }
-                },
-                new QuotationDto() {
-                    {
-                        setProductId(productId);
-                        setTime(LocalDateTime.parse("2019-02-10T15:02:00"));
-                        setOpen(1284);
-                        setClose(1301);
-                        setMin(1284);
-                        setMax(1312);
-                    }
-                },
-                new QuotationDto() {
-                    {
-                        setProductId(productId);
-                        setTime(LocalDateTime.parse("2019-02-10T15:03:00"));
-                        setOpen(1301);
-                        setClose(1311);
-                        setMin(1299);
-                        setMax(1312);
-                    }
-                }
+                new QuotationDto(productId, parse("2019-02-10T15:00:00"), 934, 959, 930, 973),
+                new QuotationDto(productId, parse("2019-02-10T15:01:00"), 959, 984, 942, 984),
+                new QuotationDto(productId, parse("2019-02-10T15:02:00"), 984, 1001, 984, 1012),
+                new QuotationDto(productId, parse("2019-02-10T15:03:00"), 1001, 1051, 1000, 1092),
+                new QuotationDto(productId, parse("2019-02-10T15:04:00"), 1051, 1120, 1000, 1163),
+                new QuotationDto(productId, parse("2019-02-10T15:05:00"), 1120, 1005, 1005, 1130),
+                new QuotationDto(productId, parse("2019-02-10T15:06:00"), 1005, 902, 902, 1005),
+                new QuotationDto(productId, parse("2019-02-10T15:07:00"), 902, 999, 900, 1010),
+                new QuotationDto(productId, parse("2019-02-10T15:08:00"), 999, 1001, 990, 1002),
+                new QuotationDto(productId, parse("2019-02-10T15:09:00"), 1001, 1051, 1000, 1092)
         );
     }
 
     private List<PlayPnlDto> getExpectedPlayPnls() {
         return List.of(
-                new PlayPnlDto() {
-                    {
-                        setTime(LocalDateTime.parse("2019-02-10T15:00:00"));
-                        setOpen(100000);
-                        setClose(100000);
-                        setMin(100000);
-                        setMax(100000);
-                    }
-                },
-                new PlayPnlDto() {
-                    {
-                        setTime(LocalDateTime.parse("2019-02-10T15:01:00"));
-                        setOpen(100000);
-                        setClose(100000);
-                        setMin(100000);
-                        setMax(100000);
-                    }
-                },
-                new PlayPnlDto() {
-                    {
-                        setTime(LocalDateTime.parse("2019-02-10T15:02:00"));
-                        setOpen(100000);
-                        setClose(100000);
-                        setMin(100000);
-                        setMax(100000);
-                    }
-                },
-                new PlayPnlDto() {
-                    {
-                        setTime(LocalDateTime.parse("2019-02-10T15:03:00"));
-                        setOpen(100000);
-                        setClose(100000);
-                        setMin(100000);
-                        setMax(100000);
-                    }
-                }
+                new PlayPnlDto(parse("2019-02-10T15:00:00"), 100000, 100000, 100000, 100000),
+                new PlayPnlDto(parse("2019-02-10T15:01:00"), 100000, 100000, 100000, 100000),
+                new PlayPnlDto(parse("2019-02-10T15:02:00"), 100000, 100017, 100000, 100028),
+                new PlayPnlDto(parse("2019-02-10T15:03:00"), 100017, 100067, 100016, 100108),
+                new PlayPnlDto(parse("2019-02-10T15:04:00"), 100000, 100000, 100000, 100000),
+                new PlayPnlDto(parse("2019-02-10T15:05:00"), 100000, 100000, 100000, 100000),
+                new PlayPnlDto(parse("2019-02-10T15:06:00"), 100000, 100000, 100000, 100000),
+                new PlayPnlDto(parse("2019-02-10T15:07:00"), 100000, 100000, 100000, 100000),
+                new PlayPnlDto(parse("2019-02-10T15:08:00"), 100000, 100000, 100000, 100000),
+                new PlayPnlDto(parse("2019-02-10T15:09:00"), 100000, 100000, 100000, 100000)
         );
     }
 
@@ -320,12 +264,12 @@ public class CoreApplicationTest {
 
     private void checkPlayPnlsEquals(List<PlayPnlDto> expected, List<PlayPnlDto> actual) {
         assertEquals(expected.size(), actual.size());
-        for(int i =0;i<expected.size();i++) {
-            assertEquals(expected.get(i).getTime(), actual.get(i).getTime());
-            assertEquals(expected.get(i).getOpen(), actual.get(i).getOpen());
-            assertEquals(expected.get(i).getClose(), actual.get(i).getClose());
-            assertEquals(expected.get(i).getMin(), actual.get(i).getMin());
-            assertEquals(expected.get(i).getMax(), actual.get(i).getMax());
+        for (int i = 0; i < expected.size(); i++) {
+            assertEquals("i = " + i, expected.get(i).getTime(), actual.get(i).getTime());
+            assertEquals("i = " + i, expected.get(i).getOpen(), actual.get(i).getOpen());
+            assertEquals("i = " + i, expected.get(i).getClose(), actual.get(i).getClose());
+            assertEquals("i = " + i, expected.get(i).getMin(), actual.get(i).getMin());
+            assertEquals("i = " + i, expected.get(i).getMax(), actual.get(i).getMax());
         }
     }
 

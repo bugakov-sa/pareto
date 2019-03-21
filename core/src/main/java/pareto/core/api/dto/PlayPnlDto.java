@@ -10,6 +10,17 @@ public class PlayPnlDto {
     private int min;
     private int max;
 
+    public PlayPnlDto() {
+    }
+
+    public PlayPnlDto(LocalDateTime time, int open, int close, int min, int max) {
+        this.time = time;
+        this.open = open;
+        this.close = close;
+        this.min = min;
+        this.max = max;
+    }
+
     public LocalDateTime getTime() {
         return time;
     }
