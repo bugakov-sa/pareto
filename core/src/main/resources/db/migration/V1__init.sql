@@ -48,7 +48,7 @@ CREATE TABLE play_event (
 );
 
 CREATE TABLE event_param (
-    event_id BIGINT REFERENCES context(id),
+    event_id BIGINT REFERENCES play_event(id),
     name TEXT,
     value TEXT NOT NULL,
     PRIMARY KEY (event_id, name)

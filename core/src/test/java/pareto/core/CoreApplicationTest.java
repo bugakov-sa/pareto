@@ -10,7 +10,10 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import pareto.core.api.*;
 import pareto.core.api.dto.*;
+import pareto.core.entity.EventType;
+import pareto.core.entity.Order;
 import pareto.core.entity.PlayStatus;
+import pareto.core.entity.PositionType;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -154,7 +157,7 @@ public class CoreApplicationTest {
         checkPlayPnlsEquals(getExpectedPlayPnls(), playPnls);
 
         List<EventDto> playEvents = eventController.getPlayEvents(play.getId());
-        checkEventsEquals(getExpectedPlayEvents(), playEvents);
+        checkEventsEquals(getExpectedPlayEvents(play.getId(), productId), playEvents);
     }
 
     private List<ParamDto> getContextParams(long productId) {
@@ -218,9 +221,95 @@ public class CoreApplicationTest {
         );
     }
 
-    private List<EventDto> getExpectedPlayEvents() {
+    private List<EventDto> getExpectedPlayEvents(long playId, long productId) {
         return List.of(
-
+                new EventDto() {
+                    {
+                        setTime(parse("2019-02-10T15:00:00"));
+                        setPlayId(playId);
+                        setEventType(EventType.NEW_ORDER);
+                        setParams(List.of(
+                                new ParamDto(Order.PARAM_PRODUCT, String.valueOf(productId)),
+                                new ParamDto(Order.PARAM_POSITION_TYPE, String.valueOf(PositionType.LONG)),
+                                new ParamDto(Order.PARAM_POSITION_SIZE, "1")
+                        ));
+                    }
+                },
+                new EventDto() {
+                    {
+                        setTime(parse("2019-02-10T15:01:00"));
+                        setPlayId(playId);
+                        setEventType(EventType.ORDER_EXECUTION);
+                        setParams(List.of(
+                                new ParamDto(Order.PARAM_PRODUCT, String.valueOf(productId)),
+                                new ParamDto(Order.PARAM_POSITION_TYPE, String.valueOf(PositionType.LONG)),
+                                new ParamDto(Order.PARAM_POSITION_SIZE, "1"),
+                                new ParamDto(Order.PARAM_POSITION_OPEN_PRICE, "959")
+                        ));
+                    }
+                },
+                new EventDto() {
+                    {
+                        setTime(parse("2019-02-10T15:03:00"));
+                        setPlayId(playId);
+                        setEventType(EventType.NEW_ORDER);
+                        setParams(List.of(
+                                new ParamDto(Order.PARAM_PRODUCT, String.valueOf(productId)),
+                                new ParamDto(Order.PARAM_POSITION_TYPE, String.valueOf(PositionType.SHORT)),
+                                new ParamDto(Order.PARAM_POSITION_SIZE, "1")
+                        ));
+                    }
+                },
+                new EventDto() {
+                    {
+                        setTime(parse("2019-02-10T15:04:00"));
+                        setPlayId(playId);
+                        setEventType(EventType.ORDER_EXECUTION);
+                        setParams(List.of(
+                                new ParamDto(Order.PARAM_PRODUCT, String.valueOf(productId)),
+                                new ParamDto(Order.PARAM_POSITION_TYPE, String.valueOf(PositionType.SHORT)),
+                                new ParamDto(Order.PARAM_POSITION_SIZE, "1"),
+                                new ParamDto(Order.PARAM_POSITION_OPEN_PRICE, "1051")
+                        ));
+                    }
+                },
+                new EventDto() {
+                    {
+                        setTime(parse("2019-02-10T15:06:00"));
+                        setPlayId(playId);
+                        setEventType(EventType.NEW_ORDER);
+                        setParams(List.of(
+                                new ParamDto(Order.PARAM_PRODUCT, String.valueOf(productId)),
+                                new ParamDto(Order.PARAM_POSITION_TYPE, String.valueOf(PositionType.LONG)),
+                                new ParamDto(Order.PARAM_POSITION_SIZE, "1")
+                        ));
+                    }
+                },
+                new EventDto() {
+                    {
+                        setTime(parse("2019-02-10T15:07:00"));
+                        setPlayId(playId);
+                        setEventType(EventType.ORDER_EXECUTION);
+                        setParams(List.of(
+                                new ParamDto(Order.PARAM_PRODUCT, String.valueOf(productId)),
+                                new ParamDto(Order.PARAM_POSITION_TYPE, String.valueOf(PositionType.LONG)),
+                                new ParamDto(Order.PARAM_POSITION_SIZE, "1"),
+                                new ParamDto(Order.PARAM_POSITION_OPEN_PRICE, "902")
+                        ));
+                    }
+                },
+                new EventDto() {
+                    {
+                        setTime(parse("2019-02-10T15:09:00"));
+                        setPlayId(playId);
+                        setEventType(EventType.NEW_ORDER);
+                        setParams(List.of(
+                                new ParamDto(Order.PARAM_PRODUCT, String.valueOf(productId)),
+                                new ParamDto(Order.PARAM_POSITION_TYPE, String.valueOf(PositionType.SHORT)),
+                                new ParamDto(Order.PARAM_POSITION_SIZE, "1")
+                        ));
+                    }
+                }
         );
     }
 
@@ -297,6 +386,16 @@ public class CoreApplicationTest {
 
     private void checkEventsEquals(List<EventDto> expected, List<EventDto> actual) {
         assertEquals(expected.size(), actual.size());
+        for (int i = 0; i < expected.size(); i++) {
+            checkEventsEquals(i, expected.get(i), actual.get(i));
+        }
+    }
+
+    private void checkEventsEquals(int i, EventDto expected, EventDto actual) {
+        assertEquals("event i = " + i, expected.getPlayId(), actual.getPlayId());
+        assertEquals("event i = " + i, expected.getEventType(), actual.getEventType());
+        assertEquals("event i = " + i, expected.getTime(), actual.getTime());
+        checkParamsEquals(expected.getParams(), actual.getParams());
     }
 
     private RobotDto createRobot(String className, List<ParamDto> params) {

@@ -34,8 +34,11 @@ public class PlayState {
         event.setPlayId(playId);
         event.setEventType(EventType.NEW_ORDER);
         event.setTime(order.getTime());
-        event.setParams(new ArrayList<>());
-        //TODO
+        event.setParams(List.of(
+                new Param(Order.PARAM_POSITION_SIZE, String.valueOf(order.getPositionSize())),
+                new Param(Order.PARAM_POSITION_TYPE, String.valueOf(order.getPositionType())),
+                new Param(Order.PARAM_PRODUCT, String.valueOf(order.getProductId()))
+        ));
         return event;
     }
 
@@ -71,17 +74,21 @@ public class PlayState {
         positions.removeAll(mergingPositions);
         positions.addAll(mergePositions(mergingPositions, position));
         ArrayList<Event> res = new ArrayList<>();
-        res.add(createOrderExecutionEvent(order, position));
+        res.add(createOrderExecutionEvent(order, position, quotation));
         return res;
     }
 
-    private Event createOrderExecutionEvent(Order order, Position position) {
+    private Event createOrderExecutionEvent(Order order, Position position, Quotation quotation) {
         Event event = new Event();
         event.setPlayId(playId);
         event.setEventType(EventType.ORDER_EXECUTION);
-        event.setTime(order.getTime());
-        event.setParams(new ArrayList<>());
-        //TODO
+        event.setTime(quotation.getTime());
+        event.setParams(List.of(
+                new Param(Order.PARAM_POSITION_SIZE, String.valueOf(order.getPositionSize())),
+                new Param(Order.PARAM_POSITION_TYPE, String.valueOf(order.getPositionType())),
+                new Param(Order.PARAM_PRODUCT, String.valueOf(order.getProductId())),
+                new Param(Order.PARAM_POSITION_OPEN_PRICE, String.valueOf(position.getOpenPrice()))
+        ));
         return event;
     }
 

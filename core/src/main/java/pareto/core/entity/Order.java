@@ -4,6 +4,11 @@ import java.time.LocalDateTime;
 
 public class Order {
 
+    public static final String PARAM_PRODUCT = "product";
+    public static final String PARAM_POSITION_TYPE = "positionType";
+    public static final String PARAM_POSITION_SIZE = "positionSize";
+    public static final String PARAM_POSITION_OPEN_PRICE = "positionOpenPrice";
+
     private final long productId;
     private final PositionType positionType;
     private final int positionSize;

@@ -70,7 +70,7 @@ public class EventService {
         List<Event> res = new ArrayList<>();
         namedParameterJdbcTemplate.query(
                 "select play_event.id as event_id, play_event.time as time, play_event.event_type as event_type, " +
-                        "play_event.play_id as play_id, event_param.name as param_name, event_param.value as value " +
+                        "play_event.play_id as play_id, event_param.name as param_name, event_param.value as param_value " +
                         "from play_event left join event_param on play_event.id = event_param.event_id where play_event.play_id = :play_id",
                 Map.of("play_id", playId),
                 new RowCallbackHandler() {
