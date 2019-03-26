@@ -72,4 +72,9 @@ public class RecordController {
                 new RecordRowDto("paragraph", "Абзац 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. Блок 2. ")
         ));
     }
+
+    @DeleteMapping("/rawrecord/{id}")
+    public void editRawRecord(@PathVariable long id) {
+
+    }
 }

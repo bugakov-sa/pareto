@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="render.js"></script>
 </head>
 <body>
@@ -17,8 +18,8 @@
         </div>
         <div class="col-sm-8">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Записи</a></li>
-                <li><a href="#">Статистика</a></li>
+                <li id ="records-href" class="active"><a href="#">Записи</a></li>
+                <li id ="reports-href" ><a href="#">Статистика</a></li>
             </ul>
         </div>
         <div class="col-sm-2">
@@ -26,6 +27,7 @@
     </div>
 </nav>
 
+<div id="records">
 <div class="row" style="margin-top:70px">
     <div class="col-sm-2">
     </div>
@@ -49,6 +51,23 @@
             </div>
         </div>
         <div id="records-panel-group" class="panel-group">
+        </div>
+    </div>
+</div>
+</div>
+<div id="reports">
+    <div class="row" style="margin-top:70px">
+        <div class="col-sm-3">
+            <div id="chart-1">Chart 1</div>
+        </div>
+        <div class="col-sm-3">
+            <div id="chart-2">Chart 2</div>
+        </div>
+        <div class="col-sm-3">
+            <div id="chart-3">Chart 3</div>
+        </div>
+        <div class="col-sm-3">
+            <div id="chart-4">Chart 4</div>
         </div>
     </div>
 </div>

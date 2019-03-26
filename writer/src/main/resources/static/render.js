@@ -2,6 +2,10 @@ var getNewRecordTextArea = function() {
     return $('#new-record-collapse > div > textarea');
 }
 
+var getRecordPanel = function(recordId) {
+    return $('#' + recordId);
+}
+
 var closeNewRecordMode = function() {
     $('#new-record-collapse').removeClass('collapse in').addClass('collapse');
     getNewRecordTextArea().val('');
@@ -68,7 +72,14 @@ var cancelEditRecord = function(recordId) {
 }
 
 var removeRecord = function(recordId){
-    //todo
+    $.ajax({
+        url: "/rawrecord/" + recordId,
+        method: 'DELETE',
+        contentType: 'application/json',
+        success: function(){
+            getRecordPanel(recordId).remove();
+        }
+    });
 }
 
 var buildRecordPanelHeader = function(record) {
@@ -143,6 +154,20 @@ var buildRecordPanel = function(record) {
     return recordPanel;
 }
 
+var switchToRecords = function() {
+    $('#records').show();
+    $('#records-href').addClass('active');
+    $('#reports').hide();
+    $('#reports-href').removeClass('active');
+}
+
+var switchToReports = function() {
+    $('#records').hide();
+    $('#records-href').removeClass('active');
+    $('#reports').show();
+    $('#reports-href').addClass('active');
+}
+
 $(document).ready(function(){
     $.getJSON("/record/", function(data, status) {
         for(i in data) {
@@ -151,4 +176,7 @@ $(document).ready(function(){
     });
     $('#save-new-record-button').click(saveNewRecord);
     $('#cancel-new-record-button').click(cancelNewRecord);
+    $('#records-href').click(switchToRecords);
+    $('#reports-href').click(switchToReports);
+    switchToRecords();
 });
